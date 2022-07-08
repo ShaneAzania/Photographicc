@@ -3,3 +3,4 @@
 - users can:
 	sign-up and edit profile information.
 	upload, delete, and add meta data to each post and album.
+- git repo link:  https://github.com/ShaneAzania/Photographicc
