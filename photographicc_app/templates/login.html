@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
+		<title>{{title}}</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
+			<a class="navbar-brand" href="/">{{title}}</a>
+			<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavId">
+				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						{% if session['user_id'] %}
+							<a class="nav-link" href="/sightings_all">Dashboard</a>
+						{% endif %}
+					</li>
+					<li class="nav-item">
+						{% if session['user_id'] %}
+							<a class="nav-link" href="/user_logout">Logout</a>
+						{% else %}
+							<a class="nav-link" href="/login">Login</a>
+						{% endif %}
+					</li>
+					<li class="nav-item">
+						<h5 class="nav-link">{{session['first_name']}}</h5>
+					</li>
+					<!-- <li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+						<div class="dropdown-menu" aria-labelledby="dropdownId">
+							<a class="dropdown-item" href="#">Action 1</a>
+							<a class="dropdown-item" href="#">Action 2</a>
+						</div>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="text" placeholder="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form> -->
+			</div>
+		</nav>
+		<div class="errors text-center">
+			{% with messages = get_flashed_messages() %}<!-- declare a variable called messages -->
+			{% if messages %}<!-- check if there are any messages -->
+			{% for message in messages %}<!-- loop through the messages -->
+			<p>{{message}}</p>
+			<!-- display each message in a paragraph tag -->
+			{% endfor %} {% endif %} {% endwith %}
+		</div>
+
+		<div class="container">
+			<div class="row pt-4">
+				<div class="col-12 col-md-6 mx-auto">
+					<h1>Login</h1>
+					<form action="user_login_form" method="post">
+						<div class="form-group">
+						  <label for="email">Email</label>
+						  <input type="text" name="email" id="email" class="form-control">
+						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+						</div>
+						<div class="form-group">
+						  <label for="password">Password</label>
+						  <input type="password" name="password" id="password" class="form-control">
+						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+						</div>
+						<div class="form-btn-box d-flex justify-content-between align-content-center">
+							<input class="btn btn-outline-primary" type="submit" value="Login">
+							<a class="align-middle" href="/join">Join</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="{{ url_for('static', filename='js/boostrap.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</html>
