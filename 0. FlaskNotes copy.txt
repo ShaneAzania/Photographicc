@@ -1,0 +1,113 @@
+#PipV for vitual environments
+
+>>> import pip
+Then when the python prompt returns >>> type:
+>>>pip.main(['install','pipenv'])
+
+-------------------------
+
+py -m pip install pipenv
+
+-------------------------
+
+###########################################################################################
+#Creating a virtualenv for this project...
+
+Now that we have pipenv installed, let's create a new project folder.  Using the folder structure we created on day one, create a new folder inside the python_/flask/fundamentals folder called hello_flask.
+
+Navigate into the hello_flask folder using your terminal or command prompt.  Once we are in the project folder we can use pipenv to install Flask.
+
+--------------------
+
+py -m pipenv install flask
+
+--------------------
+
+###########################################################################################
+
+***NOTE*** If your receive an error using pipenv, you may need to import it as a module first before it can be run as a script.  You can do so using the -m flag as below.  You will need to do this every time you use pipenv:
+
+---------------------------------
+
+py -m pipenv <command to use>
+
+---------------------------------
+
+###########################################################################################
+#Activating our Virtual Environment
+
+--------------------
+
+pipenv shell
+
+--------------------
+
+###########################################################################################
+#Deactivating our Virtual Environment
+To deactivate the virtual environment we can use exit.  Our bash window should look something like this.
+
+--------------------
+
+exit
+
+--------------------
+
+###########################################################################################
+###########################################################################################
+###########################################################################################
+
+#Importing Source URLs in HTML Jinja2
+
+{{ url_for('static', filename='my_script.js') }}
+
+###########################################################################################
+
+#Sessions:
+
+session.clear()		# clears all keys
+session.pop('key_name')		# clears a specific key
+session['key'] #value can't be object/class. has to be simple value/data
+
+
+
+decode cookie in browser
+
+-open py shell
+-import base64
+-base64.urlsafe_b64decode('firstPartOfSessionValueUpUntilFirstPeriod===')
+
+###########################################################################################
+###########################################################################################
+###########################################################################################
+
+#MySQL:
+
+py -m pipenv install PyMySQL flask
+
+
+
+*****************************************************************
+
+query = "SELECT * FROM users WHERE email = %(email)s;"
+data = { 'email' : request.form['email'] }
+result = mysql.query_db(query, data)
+
+
+###########################################################################################
+###########################################################################################
+###########################################################################################
+
+Bcrypt:
+
+
+pipenv install PyMySQL flask flask-bcrypt
+
+from flask_app import app
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
+
+bcrypt.generate_password_hash(password_string)
+bcrypt.check_password_hash(hashed_password, password_string)
+
+
+

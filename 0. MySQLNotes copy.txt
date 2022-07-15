@@ -1,0 +1,89 @@
+SELECT * 
+FROM users
+WHERE first_name LIKE "K%";
+
+SELECT * 
+FROM users
+WHERE first_name NOT LIKE "K%";
+
+SELECT *
+FROM users
+ORDER BY birthday DESC;
+
+SELECT *
+FROM users
+ORDER BY birthday ASC;
+
+SELECT *
+FROM users
+WHERE first_name LIKE "%e"
+ORDER BY birthday DESC;
+
+SELECT first_name
+FROM users
+ORDER BY first_name;
+
+SELECT *
+FROM users
+LIMIT 3;
+
+SELECT *
+FROM users
+LIMIT 3
+OFFSET 2;
+
+SELECT *
+FROM users
+LIMIT 2,3;
+
+******************************************************************************************
+
+INSERT INTO table_name (column_name1, column_name2) 
+VALUES('column1_value', 'column2_value');
+
+******************************************************************************************
+
+UPDATE table_name SET column_name1 = 'some_value', column_name2 = 'another_value', updated_at = now() WHERE condition(s);
+
+IMPORTANT: if WHERE condition is not added to the UPDATE statement, the changes will be applied to every record in the table.
+
+
+******************************************************************************************
+
+DELETE FROM table_name WHERE condition(s)
+
+IMPORTANT: if WHERE condition is not added to the DELETE statement, it will delete all the records on the table.
+
+SET SQL_SAFE_UPDATES = 0;
+
+******************************************************************************************
+
+--One to One
+
+SELECT * FROM customers 
+JOIN addresses ON addresses.id = customers.address_id;
+
+--One to Many
+
+SELECT * FROM orders 
+JOIN customers ON customers.id = orders.customer_id;
+
+--Many to Many
+
+SELECT * FROM orders 
+JOIN items_orders ON orders.id = items_orders.order_id 
+JOIN items ON items.id = items_orders.item_id;
+
+--Left Join show values from left table even if the right table doesn't have any values at that point
+
+SELECT * FROM orders 
+LEFT JOIN items_orders ON orders.id = items_orders.order_id WHERE orders.id = 1 ;
+
+SELECT * FROM toppings 
+LEFT JOIN add_ons ON add_ons.topping_id = toppings.id 
+LEFT JOIN burgers ON add_ons.burger_id = burgers.id 
+WHERE toppings.id = %(id)s;
+
+--Group requires some function on a column of 'many'
+
+GROUP BY table.id;
