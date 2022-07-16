@@ -25,18 +25,18 @@ class User:
     # create*****************************************************************
     @classmethod
     def create( cls , data ):
-        query = "INSERT INTO " + cls.db_table + " ( first_name, last_name, email, password ) VALUES ( %(first_name)s, %(last_name)s, %(email)s, %(password)s );"
+        query = "INSERT INTO " + cls.db_table + " ( user_name, first_name, last_name, email, password ) VALUES ( %(user_name)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s );"
         return connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #retreive*****************************************************************
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM " + cls.db_table + ";"
-        ninjas_from_db =  connectToMySQL(cls.db).query_db(query)
-        ninjas =[]
-        for x in ninjas_from_db:
-            ninjas.append(cls(x))
-        return ninjas
+        result =  connectToMySQL(cls.db).query_db(query)
+        users =[]
+        for x in result:
+            users.append(cls(x))
+        return users
     @classmethod
     def get_one(cls, data):
         query = "SELECT * FROM " + cls.db_table + " WHERE id = %(id)s;"
@@ -71,12 +71,15 @@ class User:
 
     def validate_ninja_form(data):
         valid = True
+        if len(data['user_name']) < 2:
+            valid = False
+            flash('User name must be at least 3 characters long.')
         if len(data['first_name']) < 2:
             valid = False
-            flash('First name must be at least 2 characters long.')
+            flash('First name must be at least 3 characters long.')
         if len(data['last_name']) < 2:
             valid = False
-            flash('Last name must be at least 2 characters long.')
+            flash('Last name must be at least 3 characters long.')
         if not EMAIL_REGEX.match(data['email']):
             valid = False
             flash('Please provide a valid email address (  example@email.com ).')

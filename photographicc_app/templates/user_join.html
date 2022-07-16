@@ -34,11 +34,15 @@
 						{% if session['user_id'] %}
 							<a class="nav-link" href="/user_logout">Logout</a>
 						{% else %}
-							<a class="nav-link" href="/login">Login</a>
+							<a class="nav-link" href="/user_login">Login</a>
 						{% endif %}
 					</li>
 					<li class="nav-item">
-						<h5 class="nav-link">{{session['first_name']}}</h5>
+						<h5 class="nav-link">
+							{% if session['user_name'] %}
+								{{session['user_name']}}
+							{% endif %}
+						</h5>
 					</li>
 					<!-- <li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -66,11 +70,26 @@
 		<div class="container">
 			<div class="row pt-4">
 				<div class="col-12 col-md-6 mx-auto">
-					<h1>Login</h1>
-					<form action="user_login_form" method="post">
+					<h1>Register</h1>
+					<form action="user_join_form" method="post">
+						<div class="form-group">
+						  <label for="user_name">User Name</label>
+						  <input type="text" name="user_name" id="user_name" class="form-control" value="{{session['user_name']}}">
+						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+						</div>
+						<div class="form-group">
+						  <label for="first_name">First Name</label>
+						  <input type="text" name="first_name" id="first_name" class="form-control" value="{{session['first_name']}}">
+						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+						</div>
+						<div class="form-group">
+						  <label for="last_name">Last Name</label>
+						  <input type="text" name="last_name" id="last_name" class="form-control" value="{{session['last_name']}}">
+						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+						</div>
 						<div class="form-group">
 						  <label for="email">Email</label>
-						  <input type="text" name="email" id="email" class="form-control">
+						  <input type="text" name="email" id="email" class="form-control" value="{{session['email']}}">
 						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
 						</div>
 						<div class="form-group">
@@ -78,12 +97,17 @@
 						  <input type="password" name="password" id="password" class="form-control">
 						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
 						</div>
-						<div class="form-btn-box d-flex justify-content-between align-content-center">
-							<input class="btn btn-outline-primary" type="submit" value="Login">
-							<a class="align-middle" href="/join">Join</a>
+						<div class="form-group">
+						  <label for="password2">Confirm Password</label>
+						  <input type="password" name="password2" id="password2" class="form-control">
+						  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+						</div><div class="form-btn-box d-flex justify-content-between align-content-center">
+							<input class="btn btn-outline-primary" type="submit" value="Join">
+							<a class="align-middle" href="/user_login">Login</a>
 						</div>
 					</form>
 				</div>
+				
 			</div>
 		</div>
 
