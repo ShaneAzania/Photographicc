@@ -75,7 +75,9 @@
 					<p class="intro-text">
 						Share your work with other creatives, consumers, and potential buyers
 					</p>
-					<a href="" class="btn btn-outline-dark rounded-0 px-5">Join</a>
+					{% if not session['user_id'] %}
+					<a href="/user_join" class="btn btn-outline-dark rounded-0 px-5">Join</a>
+					{% endif %}
 				</div>
 			</div>
 			<div class="row mt-5">
