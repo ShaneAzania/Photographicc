@@ -16,7 +16,7 @@ def index():
 
 #join
 @app.route('/user_join')
-def login():
+def join():
     try:
         if int(session['user_id']):
             return redirect('/')
@@ -42,7 +42,7 @@ def user_register_form():
             session['email'] = request.form['email']
             return redirect('/user_join')
 
-
+        #create user and set current user in session
         user = User.get_one({'id':User.create(data)})
         session.clear()
         session['user_name'] = user.user_name
@@ -60,6 +60,8 @@ def user_register_form():
 # login
 @app.route('/user_login')
 def user_login():
+    if 'user_id' in session:
+        return redirect('/user_dash')
     return render_template('user_login.html', title = site_title)
 @app.route('/user_login_form', methods = ['POST'])
 def user_login_form():

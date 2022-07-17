@@ -4,18 +4,17 @@ from flask import flash
 from photographicc_app.assets.regex import EMAIL_REGEX
 from photographicc_app.config.mysqlconnection import connectToMySQL
 
-class User:
+class Image:
     db = 'photographicc'
-    db_table = 'users'
-    db_table_sub_1 = 'images'
+    db_table = 'images'
+    db_table_sub_1 = 'users'
     db_table_sub_2 = 'albums'
     def __init__(self , db_data ):
         self.id = db_data['id']
-        self.user_name = db_data['user_name']
-        self.first_name = db_data['first_name']
-        self.last_name = db_data['last_name']
-        self.email = db_data['email']
-        self.password = db_data['password']
+        self.link = db_data['link']
+        self.keywords = db_data['keywords']
+        self.user_id = db_data['user_id']
+        # self.mimetype = db_data['mimetype']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
         self.user = []
@@ -25,7 +24,7 @@ class User:
     # create*****************************************************************
     @classmethod
     def create( cls , data ):
-        query = "INSERT INTO " + cls.db_table + " ( user_name, first_name, last_name, email, password ) VALUES ( %(user_name)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s );"
+        query = "INSERT INTO " + cls.db_table + " ( link, keywords, user_id ) VALUES ( %(link)s, %(keywords)s, %(user_id)s );"
         return connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #retreive*****************************************************************
@@ -46,21 +45,11 @@ class User:
         else:
             print('Not in database')
             return result
-    @classmethod
-    def get_by_email(cls, data):
-        query = "SELECT * FROM " + cls.db_table + " WHERE email = %(email)s;"
-        result = connectToMySQL(cls.db).query_db( query, data)
-
-        if len(result) < 1:
-            return False
-        else:
-            return cls(result[0])
     #**********************************************************************************************************************************
     #update*****************************************************************
-    # first_name last_name email password age dojo_id
     @classmethod
     def update(cls,data):
-        query = "UPDATE "+ cls.db_table +" SET first_name = '%(first_name)s', last_name = '%(last_name)s', email = '%(email)s', password = '%(password)s', updated_at = now() WHERE id = %(id)s;"
+        query = "UPDATE "+ cls.db_table +" SET keywords = '%(keywords)s', updated_at = now() WHERE id = %(id)s;"
         connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #delete*****************************************************************
@@ -68,31 +57,3 @@ class User:
     def delete (cls, data):
         query = "DELETE FROM " + cls.db_table + " WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db( query, data)
-    #**********************************************************************************************************************************
-    # validate*****************************************************************
-    def validate_ninja_form(data):
-        valid = True
-        if len(data['user_name']) < 2:
-            valid = False
-            flash('User name must be at least 3 characters long.')
-        if len(data['first_name']) < 2:
-            valid = False
-            flash('First name must be at least 3 characters long.')
-        if len(data['last_name']) < 2:
-            valid = False
-            flash('Last name must be at least 3 characters long.')
-        if not EMAIL_REGEX.match(data['email']):
-            valid = False
-            flash('Please provide a valid email address (  example@email.com ).')
-        if len(data['password']) < 8:
-            valid = False
-            flash('Password must be at least 8 characters long.')
-        if not data['password'] == data['password2']:
-            valid = False
-            flash('Passwords do not match.')
-        elif len(data['password']) < 4:
-            valid = False
-            flash('Please enter a longer password.')
-        return valid
-
-
