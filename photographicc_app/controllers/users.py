@@ -60,7 +60,7 @@ def user_register_form():
 # login
 @app.route('/user_login')
 def user_login():
-    return render_template('user_login.html')
+    return render_template('user_login.html', title = site_title)
 @app.route('/user_login_form', methods = ['POST'])
 def user_login_form():
     user = User.get_by_email({'email': request.form['email']})
@@ -76,15 +76,21 @@ def user_login_form():
         session['first_name'] = user.first_name
         session['last_name'] = user.last_name
         session['email'] = user.email
-        return redirect('/')
+        return redirect('/user_dash')
     else:
         session['user_name'] = request.form['user_name']
         session['password'] = request.form['password']
         return redirect('/user_login')
-
-
 #log out
 @app.route('/user_logout')
 def user_logout():
     session.clear()
     return redirect('/user_login')
+
+#dash
+@app.route('/user_dash')
+def user_dash():
+    if 'user_id' in session:
+        return render_template('user_dash.html', title = site_title)
+    else:
+        return redirect('/user_login')

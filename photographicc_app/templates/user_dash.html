@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
 		<title>{{title}}</title>
 	</head>
-	<body>
+	<body id="dash">
 		<nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
 			<a class="navbar-brand" href="/">{{title}}</a>
 			<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -67,8 +67,50 @@
 			{% endfor %} {% endif %} {% endwith %}
 		</div>
 
-		<div class="container">
-			<div class="row"></div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="album-outter-button-box col-lg-1 bg">
+					<div class="album-button-box">
+						<a href="/image_upload" data-toggle="tooltip" data-placement="right" title="Upload Image">
+							<img src="{{ url_for('static',filename='img/icons/add_image.jpg') }}" alt="upload" srcset="">
+						</a>
+						<a href="/album_create" data-toggle="tooltip" data-placement="right" title="Create Album">
+							<img src="{{ url_for('static',filename='img/icons/copy.jpg') }}" alt="create album" srcset="">
+						</a>
+					</div>
+				</div>
+
+				<div class="album-view-box col-lg-11 bg">
+					<div class="album-view-group">
+						<div class="pb-2">some date</div>
+						<div class="album-view">
+							<a href="">
+								<img class="" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+							</a>
+							<a href="">
+								<img class="" src="{{ url_for('static',filename='img/homepage_defaults/1-1-SSAD8635-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+							</a>
+							<a href="">
+								<img class="" src="{{ url_for('static',filename='img/homepage_defaults/1-22-06-04-SSAD6548-ShaneAzania.jpg') }}" alt="">
+							</a>
+							<a href="">
+								<img class="" src="{{ url_for('static',filename='img/homepage_defaults/2-AZAN8584-ShotByShaneAzania.jpg') }}" alt="">
+							</a>
+						</div>
+					</div>
+					<div class="album-view-group">
+						<div class="pb-2">some date</div>
+						<div class="album-view">
+							<a href="">
+								<img class="" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+							</a>
+							<a href="">
+								<img class="" src="{{ url_for('static',filename='img/homepage_defaults/1-1-SSAD8635-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script src="{{ url_for('static', filename='js/boostrap.js') }}"></script>

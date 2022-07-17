@@ -18,7 +18,7 @@ class User:
         self.password = db_data['password']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
-        self.images = []
+        self.user = []
         self.albums = []
         self.album_with_images = []
     # **********************************************************************************************************************************

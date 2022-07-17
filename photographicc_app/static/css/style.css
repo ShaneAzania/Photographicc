@@ -1,29 +1,73 @@
+:root{
+	--startline: 15em
+}
 * {
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
 }
-
 body {
 	margin-bottom: 2em;
 }
 
-.img-column {
+/* ***************************************** */
+/* index************************************* */
+#index .img-coumn {
 	flex: 12.5%;
 }
 @media (max-width: 860px) {
-	.img-column {
+	#index .img-column {
 		flex: 25%;
 	}
 }
 @media (max-width: 560px) {
-	.img-column {
+	#index .img-column {
 		flex: 100%;
 	}
 }
 
-.img-column img {
+#index .img-column img {
 	vertical-align: middle;
 	padding: 0;
 	margin: 0;
 }
+/* ***************************************** */
+/* dash************************************* */
+#dash .album-outter-button-box{
+	display: flex;
+	flex-direction: column;
+	justify-content: start;      
+	padding-top: var(--startline);
+}
+#dash .album-button-box{
+	/* display: flex; */
+	flex-direction: column;
+}
+#dash .album-button-box img{
+	display: block;
+	width: 2em !important;
+	margin-bottom: 1em;
+	margin: 0 auto 1em;
+	transition: scale .05s ease-out;
+}
+#dash .album-button-box img:hover{
+	opacity: .7;
+	scale: 1.2;
+}
+
+#dash .album-view-box{
+	padding-top: calc(var(--startline) - 2em);
+}
+#dash .album-view-group{
+	margin: 0 0 5em 0;
+}
+#dash .album-view img{
+	max-height: 15em;
+	margin: 0 2em 0 0;
+	transition: scale .05s ease-out;
+}
+#dash .album-view img:hover{
+	opacity: .8;
+	scale: 1.04;
+}
+

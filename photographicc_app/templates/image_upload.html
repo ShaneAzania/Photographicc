@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
 		<title>{{title}}</title>
 	</head>
-	<body>
+	<body id="dash">
 		<nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
 			<a class="navbar-brand" href="/">{{title}}</a>
 			<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -68,7 +68,14 @@
 		</div>
 
 		<div class="container">
-			<div class="row"></div>
+			<form action="/image_upload_form" method="post">
+				<div class="form-group">
+				  <label for="">Upload Image</label>
+				  <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+				  <!-- <small id="helpId" class="text-muted">Help text</small> -->
+				</div>
+				<input name="upload" id="upload" class="btn btn-outline-primary" type="submit" value="Upload">
+			</form>
 		</div>
 
 		<script src="{{ url_for('static', filename='js/boostrap.js') }}"></script>

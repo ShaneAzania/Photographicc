@@ -20,7 +20,11 @@ class MySQLConnection:
         with self.connection.cursor() as cursor:
             try:
                 query = cursor.mogrify(query, data)
+                print()
+                print("***********************************")
                 print("Running Query:", query)
+                print("***********************************")
+                print()
                 executable = cursor.execute(query, data)
                 if query.lower().find("insert") >= 0:
                     # INSERT queries will return the ID NUMBER of the row inserted
@@ -35,7 +39,11 @@ class MySQLConnection:
                     self.connection.commit()
             except Exception as e:
                 # if the query fails the method will return FALSE
+                print()
+                print("***********************************")
                 print("Something went wrong", e)
+                print("***********************************")
+                print()
                 return False
             finally:
                 # close the connection
