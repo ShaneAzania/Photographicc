@@ -3,6 +3,7 @@ from crypt import methods
 from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.user import User
+from photographicc_app.models import album
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
@@ -93,6 +94,16 @@ def user_logout():
 @app.route('/user_dash')
 def user_dash():
     if 'user_id' in session:
-        return render_template('user_dash.html', title = site_title)
+        user_id = session['user_id']
+        albums = album.Album.get_all({'user_id': user_id})
+        albums_with_images = []
+        for a in albums:
+            albums_with_images.append(album.Album.get_one_with_images({ 'id': a['id'] , 'user_id': user_id }))
+        for a in albums_with_images:
+            print(' ALBUM ID:',a.id, 'NAME:',a.name)
+            for img in a.images:
+                print('IMG LINK:',img.link)
+        print()
+        return render_template('user_dash.html', albums = albums_with_images, title = site_title)
     else:
         return redirect('/user_login')

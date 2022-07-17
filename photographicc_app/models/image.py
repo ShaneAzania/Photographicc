@@ -3,6 +3,7 @@ from unittest import result
 from flask import flash
 from photographicc_app.assets.regex import EMAIL_REGEX
 from photographicc_app.config.mysqlconnection import connectToMySQL
+from photographicc_app.models import album
 
 class Image:
     db = 'photographicc'
@@ -17,25 +18,22 @@ class Image:
         # self.mimetype = db_data['mimetype']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
-        self.user = []
         self.albums = []
-        self.album_with_images = []
     # **********************************************************************************************************************************
     # create*****************************************************************
     @classmethod
     def create( cls , data ):
         query = "INSERT INTO " + cls.db_table + " ( link, keywords, user_id ) VALUES ( %(link)s, %(keywords)s, %(user_id)s );"
-        return connectToMySQL(cls.db).query_db( query, data)
+        image_id = connectToMySQL(cls.db).query_db( query, data)
+        album.Album.add_images({"album_id": data['album_id'], "image_id": image_id})
+        return image_id
     #**********************************************************************************************************************************
     #retreive*****************************************************************
     @classmethod
-    def get_all(cls):
-        query = "SELECT * FROM " + cls.db_table + ";"
-        result =  connectToMySQL(cls.db).query_db(query)
-        users =[]
-        for x in result:
-            users.append(cls(x))
-        return users
+    def get_all(cls, data): #{'user_id':user_id}
+        query = "SELECT * FROM " + cls.db_table + "WHERE user_id = %(user_id)s;"
+        result =  connectToMySQL(cls.db).query_db(query,data)
+        return result
     @classmethod
     def get_one(cls, data):
         query = "SELECT * FROM " + cls.db_table + " WHERE id = %(id)s;"

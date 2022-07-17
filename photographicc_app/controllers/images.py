@@ -6,6 +6,7 @@ from photographicc_app import app
 from flask import flash,render_template,redirect,request,session
 from werkzeug.utils import secure_filename
 from photographicc_app.models.image import Image
+from photographicc_app.models import album
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
@@ -15,7 +16,8 @@ site_title = 'Photographicc'
 @app.route('/image_upload')
 def image_upload():
     if 'user_id' in session:
-        return render_template('image_upload.html', title = site_title)
+        albums = album.Album.get_all({'user_id': session['user_id']})
+        return render_template('image_upload.html', albums = albums, title = site_title)
     else:
         return redirect('/user_login')
 @app.route('/image_upload_form', methods = ['POST'])
@@ -48,7 +50,8 @@ def image_upload_form():
     data = {
         'link' : view_link,
         'keywords' : request.form['keywords'],
-        'user_id': session['user_id']
+        'user_id': session['user_id'],
+        'album_id' : request.form['album_id']
     }
     Image.create(data)
 

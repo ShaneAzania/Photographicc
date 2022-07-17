@@ -69,30 +69,11 @@
 
 		<div class="container">
 			<div class="row">
-				<form action="/image_upload_form" enctype="multipart/form-data" method="post" class=" mx-auto">
+				<form action="/album_create_form" method="post" class=" mx-auto">
 					<div class="form-group">
-					  <label for="">Upload Image</label>
-					  <!-- <input type="file" name="pic" id="pic" class="form-control-file"> -->
-					  <input type="text" name="pic_link" id="pic" class="form-control">
-					  <small id="helpId" class="text-muted">Insert full google drive image link. Make sure image is made available to anyone who has the link</small> <br>
-					  <small id="helpId" class="text-muted">Example: https://drive.google.com/file/d/1_MSAVaOWIfaXSVRtC6dUTdbXr4jD3xKy/view?usp=sharing</small>
+					  <label for="keywords">Album Name</label>
+					  <input type="text" name="name" id="name" class="form-control" placeholder="">
 					</div>
-					<div class="form-group">
-					  <label for="keywords"></label>
-					  <input type="text" name="keywords" id="keywords" class="form-control" placeholder="" aria-describedby="helpId">
-					  <small id="helpId" class="text-muted">Seperate each keyword by a comma without spaces (keyword1,keyword2).</small>
-					</div>
-					<div class="form-group">
-					  <label for="album"></label>
-					  <select class="form-control" name="album_id" id="album_id">
-						{% if albums %}
-							{% for a in albums %}
-							<option value="{{a.id}}">{{a.name}}</option>
-							{% endfor %}
-						{% endif %}
-					  </select>
-					</div>
-					<!-- <input name="upload" id="upload" class="btn btn-outline-primary" type="submit" value="Upload"> -->
 					<input name="submit" id="submit" class="btn btn-outline-primary" type="submit" value="Submit">
 				</form>
 			</div>
