@@ -57,32 +57,9 @@ def image_upload_form():
 
 
     return redirect('/user_dash')
-# def image_upload_form():  #Failed Image upload to database
-#     # get image file
-#     if 'pic' in request.files:
-#         pic = request.files['pic']
-#         print()
-#         print('*******************************************')
-#         print('*******************************************')
-#         print('the picture file: ',pic)
-#         print('*******************************************')
-#         print('*******************************************')
-#         print()
-#     else:
-#         flash('No picture uploaded')
-#         return redirect('/image_upload')
-    
-#     filename = secure_filename(pic.filename)
-#     mimetype = pic.mimetype
 
-#     data = {
-#         'filename' : filename,
-#         'keywords' : request.form['keywords'],
-#         'image_file' : pic.read( ),
-#         'mimetype' : mimetype,
-#         'user_id': session['user_id']
-#     }
-#     Image.create(data)
-
-
-#     return redirect('/user_dash')
+#view image
+@app.route('/image_view/<int:id>')
+def image_view(id):
+    image = Image.get_one(id)
+    return render_template('image_view.html', image = image, title = site_title)
