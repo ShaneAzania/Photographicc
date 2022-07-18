@@ -47,7 +47,14 @@ class Image:
     #update*****************************************************************
     @classmethod
     def update(cls,data):
-        query = "UPDATE "+ cls.db_table +" SET keywords = '%(keywords)s', updated_at = now() WHERE id = %(id)s;"
+        query = "UPDATE "+ cls.db_table +" SET keywords = %(keywords)s, updated_at = now() WHERE id = %(id)s;"
+        album.Album.change_album(
+            {
+                "album_id": data['album_id'],
+                "image_id": data['id'],
+                "current_album_id": data['current_album_id']
+            }
+        )
         connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #delete*****************************************************************

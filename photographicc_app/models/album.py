@@ -64,8 +64,22 @@ class Album:
         return connectToMySQL(cls.db).query_db( query, data)
 
     #**********************************************************************************************************************************
-    # add images *****************************************************************
+    # add images | album_with_images *****************************************************************
     @classmethod
     def add_images( cls , data ):
         query = "INSERT INTO " + cls.db_table_mm + " ( album_id, image_id ) VALUES ( %(album_id)s, %(image_id)s );"
         return connectToMySQL(cls.db).query_db( query, data)
+    # edit change image album | album_with_images *****************************************************************
+    @classmethod
+    def change_album( cls , data ):
+        # Check for current album
+        current_album = data['current_album_id'] 
+        next_album = data['album_id']
+
+        # delete current albums_with_images pair for this image
+        query = "DELETE FROM " + cls.db_table_mm + " WHERE album_id = "+ current_album +" AND image_id = %(image_id)s;"
+        connectToMySQL(cls.db).query_db( query, data)
+        
+        query = "INSERT INTO " + cls.db_table_mm + " ( album_id, image_id ) VALUES ( %(album_id)s, %(image_id)s );"
+        connectToMySQL(cls.db).query_db( query, data)
+        return None

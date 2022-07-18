@@ -12,10 +12,10 @@ body {
 
 /* ***************************************** */
 /* index************************************* */
-#index .img-coumn {
+#index .img-column {
 	flex: 12.5%;
 }
-@media (max-width: 860px) {
+@media (max-width: 660px) {
 	#index .img-column {
 		flex: 25%;
 	}
@@ -71,3 +71,14 @@ body {
 	scale: 1.04;
 }
 
+/* ***************************************** */
+/* image-view************************************* */
+#image-view .button-box{
+	display: flex;
+	justify-content: space-between;
+}
+
+#image-view .image-box img{
+	max-height: 800px;
+	max-width: 90%;
+}

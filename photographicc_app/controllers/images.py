@@ -59,7 +59,21 @@ def image_upload_form():
     return redirect('/user_dash')
 
 #view image
-@app.route('/image_view/<int:id>')
-def image_view(id):
-    image = Image.get_one(id)
-    return render_template('image_view.html', image = image, title = site_title)
+@app.route('/image_view/<int:id>/<int:album_id>')
+def image_view(id, album_id):
+    if 'user_id' in session:
+        image = Image.get_one({'id':id})
+        albums = album.Album.get_all({'user_id': session['user_id']})
+
+        print('ALBUM ID:::',album_id)
+        return render_template('image_view.html', image = image, current_album_id = album_id, albums = albums, title = site_title)
+@app.route('/image_edit_form', methods=['POST'])
+def image_edit_form():
+    data = {
+        'id':request.form['id'],
+        'keywords': request.form['keywords'],
+        'album_id': request.form['album_id'],
+        'current_album_id': request.form['current_album_id']
+    }
+    Image.update(data)
+    return redirect('/user_dash')

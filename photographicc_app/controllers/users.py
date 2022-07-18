@@ -12,7 +12,6 @@ site_title = 'Photographicc'
 #Home
 @app.route('/')
 def index():
-    # session.clear()
     return render_template('index.html', title = site_title)
 
 #join
@@ -99,10 +98,10 @@ def user_dash():
         albums_with_images = []
         for a in albums:
             albums_with_images.append(album.Album.get_one_with_images({ 'id': a['id'] , 'user_id': user_id }))
-        for a in albums_with_images:
-            print(' ALBUM ID:',a.id, 'NAME:',a.name)
-            for img in a.images:
-                print('IMG LINK:',img.link)
+        # for a in albums_with_images:
+        #     print(' ALBUM ID:',a.id, 'NAME:',a.name)
+        #     for img in a.images:
+        #         print('IMG LINK:',img.link)
         print()
         return render_template('user_dash.html', albums = albums_with_images, title = site_title)
     else:
