@@ -54,7 +54,7 @@ class Album:
     #update*****************************************************************
     @classmethod
     def update(cls,data):
-        query = "UPDATE "+ cls.db_table +" SET name = '%(name)s', updated_at = now() WHERE id = %(id)s;"
+        query = "UPDATE "+ cls.db_table +" SET name = %(name)s, updated_at = now() WHERE id = %(id)s;"
         connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #delete*****************************************************************

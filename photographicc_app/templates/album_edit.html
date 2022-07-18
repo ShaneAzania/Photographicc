@@ -67,35 +67,16 @@
 			{% endfor %} {% endif %} {% endwith %}
 		</div>
 
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
-				<div class="album-outter-button-box col-lg-1 bg">
-					<div class="album-button-box">
-						<a href="/image_upload" data-toggle="tooltip" data-placement="right" title="Upload Image">
-							<img src="{{ url_for('static',filename='img/icons/add_image.jpg') }}" alt="upload" srcset="">
-						</a>
-						<a href="/album_create" data-toggle="tooltip" data-placement="right" title="Create Album">
-							<img src="{{ url_for('static',filename='img/icons/copy.jpg') }}" alt="create album" srcset="">
-						</a>
+				<form action="/album_edit_form" method="post" class=" mx-auto">
+					<div class="form-group">
+					  <label for="keywords">Album Name</label>
+					  <input type="text" name="name" id="name" class="form-control" value="{{album.name}}">
 					</div>
-				</div>
-
-				<div class="album-view-box col-lg-11 bg">
-					{% for a in albums %}
-					<div class="album-view-group">
-						<a class="pb-2 text-decoration-none text-secondary" href="/album_edit/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
-						<div class="album-view">
-							{% for i in a.images %}
-							<a href="/image_view/{{i.id}}/{{a.id}}">
-								<img class="" src="{{ url_for('static', filename='img/homepage_defaults/1-1-AZAN2847-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-								<!-- <img class="" src="{{i.link}}" alt=""> -->
-							</a>
-							{% endfor %}
-						</div>
-					</div>
-					{% endfor %}
-				</div>
-				</div>
+					<input type="text" name="id" id="id" value = "{{album.id}}" readonly hidden>
+					<input name="submit" id="submit" class="btn btn-outline-primary" type="submit" value="Submit">
+				</form>
 			</div>
 		</div>
 
