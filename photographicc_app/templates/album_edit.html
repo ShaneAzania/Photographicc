@@ -75,7 +75,10 @@
 					  <input type="text" name="name" id="name" class="form-control" value="{{album.name}}">
 					</div>
 					<input type="text" name="id" id="id" value = "{{album.id}}" readonly hidden>
-					<input name="submit" id="submit" class="btn btn-outline-primary" type="submit" value="Submit">
+					<div class="button-box d-flex justify-content-between">
+						<input name="submit" id="submit" class="btn btn-outline-primary mr-auto" type="submit" value="Submit">
+						<a href="/album_delete/{{album.id}}" class="text-danger">Delete</a>
+					</div>
 				</form>
 			</div>
 		</div>

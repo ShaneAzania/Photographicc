@@ -50,3 +50,18 @@ def album_edit_form():
 
 
     return redirect('/user_dash')
+# delete
+@app.route('/album_delete/<int:id>')
+def album_delete(id):
+    print('ID: ',id)
+    data = {
+        'id': id,
+        'album_id': id,
+        'user_id': session['user_id'],
+    }
+    album = Album.get_one_with_images(data)
+    data['images'] = album.images
+    Album.delete(data)
+
+    return redirect(f'/user_dash')
+    # return redirect('/user_dash')

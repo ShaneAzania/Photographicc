@@ -60,6 +60,18 @@ class Album:
     #delete*****************************************************************
     @classmethod
     def delete (cls, data):
+        #Delete albums_with_images pair
+        query = "DELETE FROM " + cls.db_table_mm + " WHERE album_id = %(album_id)s;"
+        connectToMySQL(cls.db).query_db( query, data)
+        
+        #Delete images associated
+        for img in data['images']:
+            img.delete({
+                'album_id': data['album_id'],
+                'image_id': img.id
+            })
+             
+        #Delete album
         query = "DELETE FROM " + cls.db_table + " WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db( query, data)
 
@@ -83,3 +95,4 @@ class Album:
         query = "INSERT INTO " + cls.db_table_mm + " ( album_id, image_id ) VALUES ( %(album_id)s, %(image_id)s );"
         connectToMySQL(cls.db).query_db( query, data)
         return None
+    

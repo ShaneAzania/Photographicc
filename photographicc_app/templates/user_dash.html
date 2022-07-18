@@ -83,7 +83,7 @@
 				<div class="album-view-box col-lg-11 bg">
 					{% for a in albums %}
 					<div class="album-view-group">
-						<a class="pb-2 text-decoration-none text-secondary" href="/album_edit/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
+						<a class="pb-4 d-block text-decoration-none text-secondary" href="/album_edit/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
 						<div class="album-view">
 							{% for i in a.images %}
 							{% if i.link  %}
