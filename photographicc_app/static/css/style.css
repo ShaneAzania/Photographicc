@@ -1,5 +1,6 @@
 :root{
-	--startline: 15em
+	--startline: 15em;
+	--img-max-height: 15em;
 }
 * {
 	box-sizing: border-box;
@@ -55,18 +56,22 @@ body {
 	scale: 1.2;
 }
 
-#dash .album-view-box{
+#dash .album-view-box, 
+#album .album-view-box{
 	padding-top: calc(var(--startline) - 2em);
 }
-#dash .album-view-group{
+#dash .album-view-group, 
+#album .album-view-group{
 	margin: 0 0 5em 0;
 }
-#dash .album-view img{
-	max-height: 15em;
+#dash .album-view img, 
+#album .album-view img{
+	max-height: var(--img-max-height);
 	margin: 0 2em 2em 0;
 	transition: scale .05s ease-out;
 }
-#dash .album-view img:hover{
+#dash .album-view img:hover, 
+#album .album-view img:hover{
 	opacity: .8;
 	scale: 1.04;
 }
@@ -81,4 +86,12 @@ body {
 #image-view .image-box img{
 	max-height: 800px;
 	max-width: 90%;
+}
+
+#album .image-pool{
+	display: flex;
+	flex-wrap: wrap;
+}
+#album .image-pool img{
+	max-height: var(--img-max-height);
 }
