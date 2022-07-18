@@ -86,10 +86,12 @@
 						<a class="pb-2 text-decoration-none text-secondary" href="/album_edit/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
 						<div class="album-view">
 							{% for i in a.images %}
+							{% if i.link  %}
 							<a href="/image_view/{{i.id}}/{{a.id}}">
 								<img class="" src="{{ url_for('static', filename='img/homepage_defaults/1-1-AZAN2847-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
 								<!-- <img class="" src="{{i.link}}" alt=""> -->
 							</a>
+							{% endif %}
 							{% endfor %}
 						</div>
 					</div>

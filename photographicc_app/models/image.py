@@ -10,6 +10,7 @@ class Image:
     db_table = 'images'
     db_table_sub_1 = 'users'
     db_table_sub_2 = 'albums'
+    db_table_mm = 'album_with_images'
     def __init__(self , db_data ):
         self.id = db_data['id']
         self.link = db_data['link']
@@ -60,5 +61,9 @@ class Image:
     #delete*****************************************************************
     @classmethod
     def delete (cls, data):
-        query = "DELETE FROM " + cls.db_table + " WHERE id = %(id)s;"
+        # delete current albums_with_images pair for this image
+        query = "DELETE FROM " + cls.db_table_mm + " WHERE album_id = %(album_id)s AND image_id = %(image_id)s;"
+        connectToMySQL(cls.db).query_db( query, data)
+
+        query = "DELETE FROM " + cls.db_table + " WHERE id = %(image_id)s;"
         return connectToMySQL(cls.db).query_db( query, data)

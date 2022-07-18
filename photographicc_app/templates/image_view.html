@@ -73,8 +73,8 @@
 					<div class="row">
 						<a class="d-inline-block mr-auto" href="/user_dash"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}" alt=""></a>
 						<div class="d-inline-block" >
-							<a class="download ml-auto mr-2" download="image" href="{{image.link}}"><img src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt=""></a>
-							<a class="delete" href="/image_delete/{{image.id}}"><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}" alt=""></a>
+							<a class="download ml-auto mr-2" target="_blank" href="{{image.link}}"><img src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt=""></a>
+							<a class="delete" href="/image_delete/{{image.id}}/{{current_album_id}}"><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}" alt=""></a>
 						</div>
 					</div>
 					<div class="row image-box mt-4">

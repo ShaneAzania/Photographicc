@@ -2,6 +2,7 @@ from ast import Not, Try
 from crypt import methods
 from fileinput import filename
 import mimetypes
+from turtle import clear
 from photographicc_app import app
 from flask import flash,render_template,redirect,request,session
 from werkzeug.utils import secure_filename
@@ -64,8 +65,6 @@ def image_view(id, album_id):
     if 'user_id' in session:
         image = Image.get_one({'id':id})
         albums = album.Album.get_all({'user_id': session['user_id']})
-
-        print('ALBUM ID:::',album_id)
         return render_template('image_view.html', image = image, current_album_id = album_id, albums = albums, title = site_title)
 @app.route('/image_edit_form', methods=['POST'])
 def image_edit_form():
@@ -77,3 +76,13 @@ def image_edit_form():
     }
     Image.update(data)
     return redirect('/user_dash')
+# delete
+@app.route('/image_delete/<int:image_id>/<int:album_id>')
+def image_delete(image_id,album_id):
+    data = {
+        'image_id':image_id,
+        'album_id': album_id
+    }
+    Image.delete(data)
+    return redirect('/user_dash')
+
