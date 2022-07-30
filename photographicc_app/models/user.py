@@ -70,7 +70,7 @@ class User:
         return connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     # validate*****************************************************************
-    def validate_ninja_form(data):
+    def validate_form(data):
         valid = True
         if len(data['user_name']) < 2:
             valid = False
