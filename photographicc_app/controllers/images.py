@@ -17,12 +17,12 @@ def image_upload():
 # *****************************************************************************
 # uploading images through form ***********************************************
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import flash, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 
-#This needs to be updated for the machine it's used on
+#This needs to be updated for the host machine/server
 UPLOAD_FOLDER = '/Users/shaneazania/Documents/GitHub/Photographicc/photographicc_app/static/img/image_uploads'
-ALLOWED_EXTENSIONS = { 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = { 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'tiff', 'tif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -31,7 +31,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/image_upload_form', methods=['POST'])
-def upload_file():
+def image_upload_form():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -48,6 +48,10 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 
 # END uploading images ***********************************************
