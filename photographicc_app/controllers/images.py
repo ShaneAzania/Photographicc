@@ -49,6 +49,14 @@ def image_upload_form():
             filename = filename.rsplit('.', 1)[0] + '_' + datetime.datetime.now().strftime("%f") + '.' +filename.rsplit('.', 1)[1].lower()
 
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            data ={
+                'filename': filename,
+                'keywords' : request.form['keywords'],
+                'user_id' : session['user_id']
+            }
+            
+            # Upload data to database
+            Image.create(data)
             return redirect(url_for('uploaded_file', filename=filename))
 
 @app.route('/uploads/<filename>')
