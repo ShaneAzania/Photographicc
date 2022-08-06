@@ -1,5 +1,3 @@
-from sqlite3 import dbapi2
-from unittest import result
 from flask import flash
 from photographicc_app.assets.regex import EMAIL_REGEX
 from photographicc_app.config.mysqlconnection import connectToMySQL
@@ -11,20 +9,18 @@ class Image:
     db_table_sub_2 = 'albums'
     def __init__(self , db_data ):
         self.id = db_data['id']
-        self.user_name = db_data['image_name']
-        self.first_name = db_data['image_file']
-        self.email = db_data['d']
-        self.password = db_data['password']
+        self.filename = db_data['filename']
+        self.keywords = db_data['keywords']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
-        self.images = []
-        self.albums = []
-        self.album_with_images = []
+        self.location = '../static/img/image_uploads' + db_data['filename']
+        self.user = None
+        self.album = None
     # **********************************************************************************************************************************
     # create*****************************************************************
     @classmethod
     def create( cls , data ):
-        query = "INSERT INTO " + cls.db_table + " ( user_name, first_name, last_name, email, password ) VALUES ( %(user_name)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s );"
+        query = "INSERT INTO " + cls.db_table + " ( filename, keywords ) VALUES ( %(filename)s, %(keywords)s );"
         return connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #retreive*****************************************************************
@@ -32,10 +28,10 @@ class Image:
     def get_all(cls):
         query = "SELECT * FROM " + cls.db_table + ";"
         result =  connectToMySQL(cls.db).query_db(query)
-        users =[]
+        images =[]
         for x in result:
-            users.append(cls(x))
-        return users
+            images.append(cls(x))
+        return images
     @classmethod
     def get_one(cls, data):
         query = "SELECT * FROM " + cls.db_table + " WHERE id = %(id)s;"
@@ -45,53 +41,19 @@ class Image:
         else:
             print('Not in database')
             return result
-    @classmethod
-    def get_by_email(cls, data):
-        query = "SELECT * FROM " + cls.db_table + " WHERE email = %(email)s;"
-        result = connectToMySQL(cls.db).query_db( query, data)
-
-        if len(result) < 1:
-            return False
-        else:
-            return cls(result[0])
     #**********************************************************************************************************************************
     #update*****************************************************************
     # first_name last_name email password age dojo_id
     @classmethod
     def update(cls,data):
-        query = "UPDATE "+ cls.db_table +" SET first_name = '%(first_name)s', last_name = '%(last_name)s', email = '%(email)s', password = '%(password)s', updated_at = now() WHERE id = %(id)s;"
-        connectToMySQL(cls.db).query_db( query, data)
+        query = "UPDATE "+ cls.db_table +" SET keywords = '%(keywords)s', updated_at = now() WHERE id = %(id)s;"
+        return connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
     #delete*****************************************************************
     @classmethod
     def delete (cls, data):
         query = "DELETE FROM " + cls.db_table + " WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db( query, data)
-    #**********************************************************************************************************************************
-    # validate*****************************************************************
-    def validate_form(data):
-        valid = True
-        if len(data['user_name']) < 2:
-            valid = False
-            flash('User name must be at least 3 characters long.')
-        if len(data['first_name']) < 2:
-            valid = False
-            flash('First name must be at least 3 characters long.')
-        if len(data['last_name']) < 2:
-            valid = False
-            flash('Last name must be at least 3 characters long.')
-        if not EMAIL_REGEX.match(data['email']):
-            valid = False
-            flash('Please provide a valid email address (  example@email.com ).')
-        if len(data['password']) < 8:
-            valid = False
-            flash('Password must be at least 8 characters long.')
-        if not data['password'] == data['password2']:
-            valid = False
-            flash('Passwords do not match.')
-        elif len(data['password']) < 4:
-            valid = False
-            flash('Please enter a longer password.')
-        return valid
+
 
 

@@ -1,4 +1,4 @@
-from ast import Try
+import datetime
 from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.image import Image
@@ -22,7 +22,7 @@ from werkzeug.utils import secure_filename
 
 #This needs to be updated for the host machine/server
 UPLOAD_FOLDER = '/Users/shaneazania/Documents/GitHub/Photographicc/photographicc_app/static/img/image_uploads'
-ALLOWED_EXTENSIONS = { 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'tiff', 'tif'}
+ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg', 'gif', 'tiff', 'tif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -36,15 +36,18 @@ def image_upload_form():
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            return redirect('/image_upload')
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
+            return redirect('/image_upload')
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = secure_filename(file.filename) 
+            #append dateTime to end of filename before extension
+            filename = filename.rsplit('.', 1)[0] + '_' + datetime.datetime.now().strftime("%f") + '.' +filename.rsplit('.', 1)[1].lower()
+
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
 

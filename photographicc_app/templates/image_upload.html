@@ -74,7 +74,13 @@
 				<form class="" action="/image_upload_form" method=post enctype=multipart/form-data>
 					<div class="mb-3">
 						<label for="file" class="form-label">Image</label>
-						<input class="form-control" name=file type="file" id="file">
+						<input class="form-control" name=file type="file" id="file" accept=".png,.jpg,.jpeg,.gif,.tiff,.tif">
+					</div>
+					<div class="mb-3">
+					  <label for="" class="form-label">Keywords</label>
+					  <input type="text"
+						class="form-control" name="keywords" id="keywords" placeholder="keyword1, key word 2, keyword 3, etc...">
+					  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , )</small>
 					</div>
 					<input class="btn btn-outline-primary" type=submit value=Upload>
 				</form>
