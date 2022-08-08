@@ -74,7 +74,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="control-buttons col-12 mb-3 d-flex justify-content-between">
-					<a class="mr-auto" href="/user_dash"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
+					<a class="mr-auto" href="/images_display_all"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
 					<div>
 						<a class="ml-3" href="{{ url_for('static',filename=image.location) }}" download><img src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt="download"></a>
 						<a class="ml-3" href="/user_dash"> <!-- Set info box to pop up--><img src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<div class="col">
-					<img src="{{ url_for('static',filename=image.location) }}">
+					<a class="" href="{{ url_for('static',filename=image.location) }}" data-toggle="tooltip" data-placement="right" title="click to view fullscreen"><img src="{{ url_for('static',filename=image.location) }}"></a>
 				</div>
 			</div>
 		</div>
