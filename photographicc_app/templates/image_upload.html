@@ -30,6 +30,9 @@
 					<li class="nav-item">
 							<a class="nav-link" href="/user_dash">Dashboard</a>
 					</li>
+					<li class="nav-item">
+							<a class="nav-link" href="/images_display_all">Images</a>
+					</li>
 					{% endif %}
 					<li class="nav-item">
 						{% if session['user_id'] %}
@@ -79,8 +82,8 @@
 					<div class="mb-3">
 					  <label for="" class="form-label">Keywords</label>
 					  <input type="text"
-						class="form-control" name="keywords" id="keywords" placeholder="keyword1, key word 2, keyword 3, etc...">
-					  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , )</small>
+						class="form-control" name="keywords" id="keywords" placeholder="keyword1,key word 2,keyword 3,etc...">
+					  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , ) and no space</small>
 					</div>
 					<input class="btn btn-outline-primary" type=submit value=Upload>
 				</form>

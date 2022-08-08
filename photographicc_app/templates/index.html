@@ -25,11 +25,15 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">Home</a>
 					</li>
+					<!-- Nav links that show up when logged in as a user -->
+					{% if session['user_id'] %}
 					<li class="nav-item">
-						{% if session['user_id'] %}
 							<a class="nav-link" href="/user_dash">Dashboard</a>
-						{% endif %}
 					</li>
+					<li class="nav-item">
+							<a class="nav-link" href="/images_display_all">Images</a>
+					</li>
+					{% endif %}
 					<li class="nav-item">
 						{% if session['user_id'] %}
 							<a class="nav-link" href="/user_logout">Logout</a>

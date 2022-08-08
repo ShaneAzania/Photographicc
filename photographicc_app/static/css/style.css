@@ -79,8 +79,8 @@ body {
 	scale: 1.04;
 }
 
-/* ***************************************** */
-/* image-view************************************* */
+/* **************************************************** */
+/* image-view ***************************************** */
 #image-view .button-box{
 	display: flex;
 	justify-content: space-between;
@@ -97,4 +97,27 @@ body {
 }
 #album .image-pool img{
 	max-height: var(--img-max-height);
+}
+
+/* **************************************************** */
+/* image_display_all ********************************** */
+.image-display-box{
+	display: flex;
+	flex-wrap: wrap;
+}
+.img-group{
+	display: inline-block;
+	
+}
+.img-group img{
+	width: 100%;
+}
+
+/* **************************************************** */
+/* image_display_all ********************************** */
+#image_view img{
+	width: 100%;
+}
+#image_view .control-buttons img{
+	width: 30px;
 }

@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
 		<title>{{title}}</title>
 	</head>
-	<body id="dash">
+	<body>
 		<nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
 			<a class="navbar-brand" href="/">{{title}}</a>
 			<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -71,36 +71,17 @@
 			{% endfor %} {% endif %} {% endwith %}
 		</div>
 
-		<div class="container-fluid">
-			<div class="row">
-				<div class="album-outter-button-box col-lg-1 bg">
-					<div class="album-button-box">
-						<a href="/image_upload" data-toggle="tooltip" data-placement="right" title="Upload Image">
-							<img src="{{ url_for('static',filename='img/icons/add_image.jpg') }}" alt="upload" srcset="">
+		<div class="container">
+			<div class="row justify-content-center">
+				<h1 class="col-12 text-center mb-4">All Images</h1>
+				<div class="image-display-box col-12 row">
+					{% for img in images %}
+					<div class="img-group col-12 col-lg-4 mb-4">
+						<a class="" href="/image_view/{{img.id}}">
+							<img src="{{ url_for('static',filename=img.location) }}">
 						</a>
-						<a href="/album_create" data-toggle="tooltip" data-placement="right" title="Create Album">
-							<img src="{{ url_for('static',filename='img/icons/copy.jpg') }}" alt="create album" srcset="">
-						</a>
-					</div>
-				</div>
-
-				<div class="album-view-box col-lg-11 bg">
-					{% for a in albums %}
-					<div class="album-view-group">
-						<a class="pb-4 d-block text-decoration-none text-secondary" href="/album_edit/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
-						<div class="album-view">
-							{% for i in a.images %}
-							{% if i.link  %}
-							<a href="/image_view/{{i.id}}/{{a.id}}">
-								<img class="" src="{{ url_for('static', filename='img/homepage_defaults/1-1-AZAN2847-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-								<!-- <img class="" src="{{i.link}}" alt=""> -->
-							</a>
-							{% endif %}
-							{% endfor %}
-						</div>
 					</div>
 					{% endfor %}
-				</div>
 				</div>
 			</div>
 		</div>

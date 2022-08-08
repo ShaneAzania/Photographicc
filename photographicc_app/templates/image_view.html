@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
 		<title>{{title}}</title>
 	</head>
-	<body id="dash">
+	<body id="image_view">
 		<nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
 			<a class="navbar-brand" href="/">{{title}}</a>
 			<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -72,35 +72,25 @@
 		</div>
 
 		<div class="container-fluid">
-			<div class="row">
-				<div class="album-outter-button-box col-lg-1 bg">
-					<div class="album-button-box">
-						<a href="/image_upload" data-toggle="tooltip" data-placement="right" title="Upload Image">
-							<img src="{{ url_for('static',filename='img/icons/add_image.jpg') }}" alt="upload" srcset="">
+			<div class="row justify-content-center">
+				<div class="control-buttons col-12 mb-3 d-flex justify-content-between">
+					<a class="mr-auto" href="/user_dash">
+						<img src="{{ url_for('static',filename='img/icons/back.jpg') }}">
+					</a>
+					<div>
+						<a class="ml-3" href="/user_dash"> <!-- Set to download-->
+							<img src="{{ url_for('static',filename='img/icons/download.jpg') }}">
 						</a>
-						<a href="/album_create" data-toggle="tooltip" data-placement="right" title="Create Album">
-							<img src="{{ url_for('static',filename='img/icons/copy.jpg') }}" alt="create album" srcset="">
+						<a class="ml-3" href="/user_dash"> <!-- Set info box to pop up-->
+							<img src="{{ url_for('static',filename='img/icons/info.jpg') }}">
+						</a>
+						<a class="ml-3" href="/user_dash"> <!-- Set to delete route-->
+							<img src="{{ url_for('static',filename='img/icons/delete.jpg') }}">
 						</a>
 					</div>
 				</div>
-
-				<div class="album-view-box col-lg-11 bg">
-					{% for a in albums %}
-					<div class="album-view-group">
-						<a class="pb-4 d-block text-decoration-none text-secondary" href="/album_edit/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
-						<div class="album-view">
-							{% for i in a.images %}
-							{% if i.link  %}
-							<a href="/image_view/{{i.id}}/{{a.id}}">
-								<img class="" src="{{ url_for('static', filename='img/homepage_defaults/1-1-AZAN2847-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-								<!-- <img class="" src="{{i.link}}" alt=""> -->
-							</a>
-							{% endif %}
-							{% endfor %}
-						</div>
-					</div>
-					{% endfor %}
-				</div>
+				<div class="col">
+					<img src="{{ url_for('static',filename=image.location) }}">
 				</div>
 			</div>
 		</div>

@@ -10,7 +10,10 @@ class Image:
     def __init__(self , db_data ):
         self.id = db_data['id']
         self.filename = db_data['filename']
-        self.keywords = db_data['keywords'] #separate by a comma and put into an array
+        self.keywords = db_data['keywords'].split(",") #separate by a comma and put into an array
+        print()
+        print('keywords'.upper())
+        print()
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
         self.user_id = db_data['user_id']

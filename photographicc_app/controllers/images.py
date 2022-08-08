@@ -54,16 +54,31 @@ def image_upload_form():
                 'keywords' : request.form['keywords'],
                 'user_id' : session['user_id']
             }
-            
+
             # Upload data to database
             Image.create(data)
-            return redirect(url_for('uploaded_file', filename=filename))
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
-
+            # return redirect(url_for('uploaded_file', filename=filename))
+            return redirect('/user_dash')
+# @app.route('/uploads/<filename>')
+# def uploaded_file(filename):
+#     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # END uploading images ***********************************************
 # ****************************************************************
+
+# View all images in a pool
+@app.route('/images_display_all')
+def images_display_all():
+    if 'user_id' in session:
+        images = Image.get_all()
+        return render_template('images_display_all.html', images = images, title = site_title)
+    else:
+        return redirect('/user_login')
+# View one image
+@app.route('/image_view/<int:id>')
+def image_view(id):
+    if 'user_id' in session:
+        image = Image.get_one({'id':id})
+        return render_template('image_view.html', image = image, title = site_title)
+    else:
+        return redirect('/user_login')
