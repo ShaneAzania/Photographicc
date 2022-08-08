@@ -111,6 +111,11 @@ body {
 }
 .img-group img{
 	width: 100%;
+	transition: all ease-in-out 200ms;
+}
+.img-group img:hover{
+	transform: scale(1.02);
+	opacity: .95;
 }
 
 /* **************************************************** */
