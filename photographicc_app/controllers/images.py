@@ -1,3 +1,4 @@
+from crypt import methods
 import datetime
 from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
@@ -96,3 +97,15 @@ def image_view(id):
         return render_template('image_view.html', image = image, title = site_title)
     else:
         return redirect('/user_login')
+
+# Update
+@app.route('/image_update_form', methods = ['POST'])
+def image_update_form():
+    form = request.form
+    data = {
+        'id':form['id'],
+        'keywords': form['keywords']
+    }
+    Image.update(data)
+
+    return redirect(f'/image_view/{request.form["id"]}')

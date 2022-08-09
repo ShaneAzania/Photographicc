@@ -63,7 +63,7 @@
 					<a class="mr-auto" href="/images_display_all"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
 					<div>
 						<a class="ms-3" href="{{ url_for('static',filename=image.location) }}" download><img src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt="download"></a>
-						<a class="ms-3" href="/user_dash"> <!-- Set info box to pop up--><img src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
+						<a id = "info" class="ms-3" href="#"> <!-- Set info box to pop up--><img src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
 						<a class="ms-3" href="/image_delete/{{image.id}}"><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
 					</div>
 				</div>
@@ -75,9 +75,18 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div id="info-box" class=" bg-light">
-
-		</div> -->
+		<div id="info-box" class="bg-light">
+			<button class="btn btn-outline-dark close-btn mb-5">Close</button>
+			<form action="/image_update_form" method="post">
+				<div class="mb-3">
+				  <label for="keywords" class="form-label">Keywords</label>
+				  <input type="text" class="form-control" name="keywords" id="" value="{{image.keywords}}" placeholder="keyword1,key word 2,keyword 3,etc...">
+				  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , ) and no space</small>
+				</div>
+				<input type="text" name="id" value="{{image.id}}" readonly hidden>
+				<button class="btn btn-secondary">Update</button>
+			</form>
+		</div>
 
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
