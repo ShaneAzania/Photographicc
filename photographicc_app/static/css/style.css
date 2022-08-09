@@ -37,24 +37,23 @@ body {
 }
 /* ***************************************** */
 /* dash************************************* */
-#dash .album-outter-button-box{
+.image-upload-album-create-outter-box{
 	display: flex;
 	flex-direction: column;
 	justify-content: start;      
 	padding-top: var(--startline);
 }
-#dash .album-button-box{
-	/* display: flex; */
+.image-upload-album-create-inner-box{
 	flex-direction: column;
 }
-#dash .album-button-box img{
+.image-upload-album-create-inner-box img{
 	display: block;
 	width: 2em !important;
 	margin-bottom: 1em;
 	margin: 0 auto 1em;
 	transition: scale .05s ease-out;
 }
-#dash .album-button-box img:hover{
+.image-upload-album-create-inner-box img:hover{
 	opacity: .7;
 	scale: 1.2;
 }
