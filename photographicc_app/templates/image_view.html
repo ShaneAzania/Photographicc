@@ -62,9 +62,9 @@
 				<div class="control-buttons col-12 mb-3 d-flex justify-content-between">
 					<a id="back_btn" class="mr-auto" href="#"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
 					<div>
-						<a class="ms-3" href="{{ url_for('static',filename=image.location) }}" download><img src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt="download"></a>
-						<a id = "info" class="ms-3" href="#"> <img src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
-						<a class="ms-3" href="/image_delete/{{image.id}}"><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
+						<a class="ms-3" href="{{ url_for('static',filename=image.location) }}" download><img alt="download" src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt="download"></a>
+						<a id = "info" class="ms-3"> <img alt="info" src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
+						<a class="ms-3" href="/image_delete/{{image.id}}"><img alt="delete" src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
 					</div>
 				</div>
 			</div>
@@ -81,7 +81,7 @@
 				<div class="mb-3">
 				  <label for="keywords" class="form-label">Keywords</label>
 				  <input type="text" class="form-control" name="keywords" id="" value="{{image.keywords}}" placeholder="keyword1,key word 2,keyword 3,etc...">
-				  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , ) and no space</small>
+				  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , )</small>
 				</div>
 				<input type="text" name="id" value="{{image.id}}" readonly hidden>
 				<button class="btn btn-secondary">Update</button>

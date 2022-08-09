@@ -98,13 +98,16 @@ body {
 }
 
 /* **************************************************** */
-/* image_display_all ********************************** */
+/* image_view ********************************** */
 #image-view img{
 	max-width: 100%;
 	max-height: 100vh;
 }
 #image-view .control-buttons img{
 	width: 30px;
+}
+#info{
+	cursor: pointer;
 }
 #info-box{
 	/* display: none; */

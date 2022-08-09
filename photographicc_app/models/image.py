@@ -10,14 +10,13 @@ class Image:
     def __init__(self , db_data ):
         self.id = db_data['id']
         self.filename = db_data['filename']
-        self.keywords = db_data['keywords'] #.split(",") #separate by a comma and put into an array
+        self.keywords = db_data['keywords']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
         self.user_id = db_data['user_id']
         # change file location directory to fit each project
         self.location = 'img/image_uploads/' + db_data['filename']
         self.user = None
-        self.album = None
     # **********************************************************************************************************************************
     # create*****************************************************************
     @classmethod
