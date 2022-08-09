@@ -1,3 +1,4 @@
+// info box
 const info_button = document.querySelector('#info');
 const info_box = document.querySelector('#info-box');
 const close_btn = info_box.querySelector('.close-btn');

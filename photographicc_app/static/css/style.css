@@ -106,7 +106,7 @@ body {
 #image-view .control-buttons img{
 	width: 30px;
 }
-#info{
+#info, #back_btn{
 	cursor: pointer;
 }
 #info-box{
