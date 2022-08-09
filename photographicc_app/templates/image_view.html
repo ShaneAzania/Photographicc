@@ -78,7 +78,7 @@
 					<div>
 						<a class="ml-3" href="{{ url_for('static',filename=image.location) }}" download><img src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt="download"></a>
 						<a class="ml-3" href="/user_dash"> <!-- Set info box to pop up--><img src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
-						<a class="ml-3" href="/user_dash"> <!-- Set to delete route--><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
+						<a class="ml-3" href="/image_delete/{{image.id}}"><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
 					</div>
 				</div>
 				<div class="col">

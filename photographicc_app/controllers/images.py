@@ -22,14 +22,15 @@ from werkzeug.utils import secure_filename
 
 #This needs to be updated for the host machine/server
 UPLOAD_FOLDER = '/Users/shaneazania/Documents/GitHub/Photographicc/photographicc_app/static/img/image_uploads'
+#This needs to be updated for the type of file that is expected to be uploaded
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg', 'gif', 'tiff', 'tif'}
-
+# set the upload folder directory in the app.config
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+# validate the incoming file
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
+# process the form being received from the client
 @app.route('/image_upload_form', methods=['POST'])
 def image_upload_form():
     if request.method == 'POST':
@@ -65,6 +66,19 @@ def image_upload_form():
 
 # END uploading images ***********************************************
 # ****************************************************************
+
+# Deleting
+@app.route('/image_delete/<int:id>')
+def image_delete(id):
+    data = {'id' : id}
+    img = Image.get_one(data)
+    # delet image file from server
+    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
+
+    # delete image row from database
+    Image.delete(data)
+
+    return redirect('/images_display_all')
 
 # View all images in a pool
 @app.route('/images_display_all')
