@@ -72,7 +72,7 @@
 		</div>
 
 		<div class="container">
-			<div class="row justify-content-center">
+			<div class="row">
 				<div class="control-buttons col-12 mb-3 d-flex justify-content-between">
 					<a class="mr-auto" href="/images_display_all"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
 					<div>
@@ -81,7 +81,9 @@
 						<a class="ml-3" href="/image_delete/{{image.id}}"><img src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
 					</div>
 				</div>
-				<div class="col">
+			</div>
+			<div class="row justify-content-center">
+				<div class="col text-center">
 					<a class="" href="{{ url_for('static',filename=image.location) }}" data-toggle="tooltip" data-placement="right" title="click to view fullscreen"><img src="{{ url_for('static',filename=image.location) }}"></a>
 				</div>
 			</div>
