@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='bootstrap/bootstrap.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
+		<title>{{title}}</title>
+	</head>
+	<body id="image-view">
+		<nav class="navbar navbar-expand-lg bg-light mb-3">
+			<div class="container-fluid">
+			  <a class="navbar-brand" href="/">{{title}}</a>
+			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<!-- Nav links that show up when logged in as a user -->
+					{% if session['user_id'] %}
+					<li class="nav-item">
+							<a class="nav-link" href="/user_dash">Dashboard</a>
+					</li>
+					<li class="nav-item">
+							<a class="nav-link" href="/images_display_all">Images</a>
+					</li>
+					{% endif %}
+					<li class="nav-item">
+						{% if session['user_id'] %}
+							<a class="nav-link" href="/user_logout">Logout</a>
+						{% else %}
+							<a class="nav-link" href="/user_login">Login</a>
+						{% endif %}
+					</li>
+					<li class="nav-item">
+						<h5 class="nav-link">
+							{% if session['user_name'] %}
+								{{session['user_name']}}
+							{% endif %}
+						</h5>
+					</li>
+				</ul>
+			  </div>
+			</div>
+		</nav>
+		<div class="errors">
+			{% with messages = get_flashed_messages() %}<!-- declare a variable called messages -->
+			{% if messages %}<!-- check if there are any messages -->
+			{% for message in messages %}<!-- loop through the messages -->
+			<p>{{message}}</p>
+			<!-- display each message in a paragraph tag -->
+			{% endfor %} {% endif %} {% endwith %}
+		</div>
+
+		<div class="container">
+			<!-- control-buttons -->
+			<div class="row">
+				<div class="control-buttons col-12 mb-3 d-flex justify-content-between">
+					<a id="back_btn" class="mr-auto" href="#"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
+					<div>
+						<a class="ms-3" href="{{ url_for('static',filename=image.location) }}" download><img alt="download" src="{{ url_for('static',filename='img/icons/download.jpg') }}" alt="download"></a>
+						<a id = "info" class="ms-3"> <img alt="info" src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
+						<a class="ms-3" href="/image_delete/{{image.id}}"><img alt="delete" src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
+					</div>
+				</div>
+			</div>
+			<!-- image display -->
+			<div class="row justify-content-center">
+				<div class="col text-center">
+					<img src="{{ url_for('static',filename=image.location) }}">
+				</div>
+			</div>
+		</div>
+		<div id="info-box" class="bg-light">
+			<button class="btn btn-outline-dark close-btn mb-5">Close</button>
+			<form action="/image_update_form" method="post">
+				<div class="mb-3">
+				  <label for="keywords" class="form-label">Keywords</label>
+				  <input type="text" class="form-control" name="keywords" id="" value="{{image.keywords}}" placeholder="keyword1,key word 2,keyword 3,etc...">
+				  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , )</small>
+				</div>
+				<input type="text" name="id" value="{{image.id}}" readonly hidden>
+				<button class="btn btn-secondary">Update</button>
+			</form>
+		</div>
+
+		<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+	</body>
+</html>
