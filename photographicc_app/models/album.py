@@ -1,11 +1,12 @@
 from flask import flash
 from photographicc_app.assets.regex import EMAIL_REGEX
 from photographicc_app.config.mysqlconnection import connectToMySQL
+from photographicc_app.models import image
 
 class Album:
     db = 'photographicc'
     db_table = 'albums'
-    db_table_sub_1 = 'users'
+    db_table_sub_1 = 'album_with_images'
     db_table_sub_2 = 'images'
     def __init__(self , db_data ):
         self.id = db_data['id']
@@ -24,22 +25,29 @@ class Album:
     #**********************************************************************************************************************************
     #retreive*****************************************************************
     @classmethod
-    def get_all(cls):
-        query = "SELECT * FROM " + cls.db_table + ";"
-        result =  connectToMySQL(cls.db).query_db(query)
-        images =[]
+    def get_all(cls, data):
+        query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(user_id)s;"
+        result =  connectToMySQL(cls.db).query_db(query, data)
+        albums =[]
         for x in result:
-            images.append(cls(x))
-        return images
+            albums.append(cls(x))
+        return albums
     @classmethod
-    def get_one(cls, data):
-        query = "SELECT * FROM " + cls.db_table + " WHERE id = %(id)s;"
+    def get_one_with_images(cls, data):
+        query = "SELECT * FROM " + cls.db_table + " LEFT JOIN " + cls.db_table_sub_1 + " ON albums.id = album_with_images.album_id LEFT JOIN " + cls.db_table_sub_2 + " ON images.id = album_with_images.image_id WHERE " + cls.db_table + ".id = %(id)s;"
         result =  connectToMySQL(cls.db).query_db(query,data)
-        if result: 
-            return cls(result[0])
-        else:
-            print('Not in database')
-            return result
+        album = cls(result[0])
+        for img in result:
+            img_data = {
+                "id": img['images.id'],
+                "filename" : img['filename'],
+                "keywords" : img['keywords'],
+                "created_at" : img['images.created_at'],
+                "updated_at" : img['images.updated_at'],
+                "user_id" : img['user_id']
+            }
+            album.images.append(image.Image(img_data))
+        return album
     #**********************************************************************************************************************************
     #update*****************************************************************
     # first_name last_name email password age dojo_id
