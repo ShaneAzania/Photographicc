@@ -1,5 +1,6 @@
 from crypt import methods
 import datetime
+from turtle import title
 from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.album import Album
@@ -28,6 +29,7 @@ def album_create_form():
         return redirect(f'/user_dash')
     else:
         return redirect('/user_login')
+
 # Update
 @app.route('/album_update_form', methods = ['POST'])
 def album_update_form():
@@ -37,5 +39,10 @@ def album_update_form():
         'name': form['name']
     }
     Album.update(data)
-
     return redirect(f'/image_view/{request.form["id"]}')
+
+# View
+@app.route('/album_view/<int:id>')
+def album_view(id):
+    album = Album.get_one_with_images({'id' : id})
+    return render_template('album_view.html', album = album, title = site_title)

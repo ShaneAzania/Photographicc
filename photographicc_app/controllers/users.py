@@ -101,15 +101,15 @@ def user_dash():
         for a in albums:
             albums_with_images.append(album.Album.get_one_with_images({ 'id': a.id}))
         
-        for a in albums_with_images:
-            print()
-            print('ALBUM ID:', a.id)
-            print('NAME:',a.name)
-            print('IMAGES:',len(a.images))
-            for img in a.images:
-                print(img.id)
-            print()
-        print()
+        # for a in albums_with_images:
+        #     print()
+        #     print('ALBUM ID:', a.id)
+        #     print('NAME:',a.name)
+        #     print('IMAGES:',len(a.images))
+        #     for img in a.images:
+        #         print(img.id)
+        #     print()
+        # print()
         return render_template('user_dash.html', albums = albums_with_images, title = site_title)
     else:
         return redirect('/user_login')
