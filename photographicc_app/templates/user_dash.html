@@ -58,7 +58,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="image-upload-album-create-outter-box col-lg-1 bg">
+				<div class="image-upload-album-create-outter-box col-1 bg">
 					<div class="image-upload-album-create-inner-box">
 						<a href="/image_upload" data-toggle="tooltip" data-placement="right" title="Upload Image">
 							<img src="{{ url_for('static',filename='img/icons/add_image.jpg') }}" alt="upload" srcset="">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 
-				<div class="album-view-box col-lg-11 bg">
+				<div class="album-view-box col-11 bg">
 					{% for a in albums %}
 					<div class="album-view-group">
 						<a class="pb-4 d-block text-decoration-none text-secondary" href="/album_view/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
@@ -93,7 +93,7 @@
 			</div>
 		</div>
 
-		<script src="{{ url_for('static', filename='js/boostrap.js') }}"></script>
+		<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 	</body>
 </html>
