@@ -93,11 +93,16 @@ def images_display_all():
 # View one image
 @app.route('/image_view/<int:id>')
 def image_view(id):
+    # if logged in user matches image owner user_id, then allow image details to be edited. else, don't all edit 
     if 'user_id' in session:
         image = Image.get_one({'id':id})
-        return render_template('image_view.html', image = image, albums = album.Album.get_all({'user_id':session['user_id']}), title = site_title)
+        if session['user_id'] == image.user_id:
+            albums = album.Album.get_all({'user_id':session['user_id']})
+            return render_template('image_view.html', image = image, albums = albums, title = site_title)
     else:
-        return redirect('/user_login')
+        image = Image.get_one({'id':id})
+        albums = album.Album.get_all({'user_id':image.user_id})
+        return render_template('image_view.html', albums = albums, image = image, title = site_title)
 
 # Update Form
 @app.route('/image_update_form', methods = ['POST'])
