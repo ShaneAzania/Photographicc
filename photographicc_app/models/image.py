@@ -97,6 +97,6 @@ class Image:
         # check if the album_with_images pair exist before creating the pair
         query = "SELECT * FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
         if connectToMySQL(cls.db).query_db(query, data):
-            # create album_with_images pair
+            # delete album_with_images pair
             query = "DELETE FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
             return connectToMySQL(cls.db).query_db( query, data)

@@ -10,7 +10,7 @@ bcrypt = Bcrypt(app)
 site_title = 'Photographicc'
 
 
-# Album Create
+# Create
 @app.route('/album_create')
 def album_create():
     if 'user_id' in session:
@@ -29,6 +29,11 @@ def album_create_form():
         return redirect(f'/album_view/{album_id}')
     else:
         return redirect('/user_login')
+# View
+@app.route('/album_view/<int:id>')
+def album_view(id):
+    album = Album.get_one_with_images({'id': id})
+    return render_template('album_view.html', album = album, title = site_title)
 
 # Update
 @app.route('/album_update_form', methods = ['POST'])
@@ -41,8 +46,11 @@ def album_update_form():
     Album.update(data)
     return redirect(f'/album_view/{request.form["id"]}')
 
-# View
-@app.route('/album_view/<int:id>')
-def album_view(id):
-    album = Album.get_one_with_images({'id': id})
-    return render_template('album_view.html', album = album, title = site_title)
+# Delete 
+@app.route('/album_delete/<int:id>')
+def album_delete(id):
+    data = {
+        'id':id
+    }
+    Album.delete(data)
+    return redirect('/user_dash')
