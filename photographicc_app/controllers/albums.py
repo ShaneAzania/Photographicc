@@ -25,8 +25,8 @@ def album_create_form():
             'name': request.form['name'],
             'user_id': session['user_id']
         }
-        Album.create(data)
-        return redirect(f'/user_dash')
+        album_id = Album.create(data)
+        return redirect(f'/album_view/{album_id}')
     else:
         return redirect('/user_login')
 

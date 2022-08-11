@@ -59,9 +59,9 @@ def image_upload_form():
             }
 
             # Upload data to database
-            Image.create(data)
+            image_id = Image.create(data)
             # return redirect(url_for('uploaded_file', filename=filename))
-            return redirect('/user_dash')
+            return redirect(f'/image_view/{image_id}')
 # @app.route('/uploads/<filename>')
 # def uploaded_file(filename):
 #     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
