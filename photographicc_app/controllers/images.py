@@ -13,7 +13,10 @@ site_title = 'Photographicc'
 @app.route('/image_upload')
 def image_upload():
     if 'user_id' in session:
-        return render_template('image_upload.html', title = site_title)
+        data = {
+            'user_id': session['user_id']
+        }
+        return render_template('image_upload.html', albums = album.Album.get_all(data), title = site_title)
     else:
         return redirect('/user_login')
 # *****************************************************************************
@@ -57,9 +60,18 @@ def image_upload_form():
                 'keywords' : request.form['keywords'],
                 'user_id' : session['user_id']
             }
-
-            # Upload data to database
+            # Upload Image data to database
             image_id = Image.create(data)
+            # Creat albums_with_images pair in database
+            # get albums from form
+            album_ids_from_form = request.form.getlist('albums[]') #array of albums from the form
+            # cycle through the albums_from_form and create an albums_with_images pair for each
+            for a_id in album_ids_from_form:
+                data = {
+                    'image_id': image_id,
+                    'album_id' : a_id
+                }
+                Image.add_to_album(data)
             # return redirect(url_for('uploaded_file', filename=filename))
             return redirect(f'/image_view/{image_id}')
 # @app.route('/uploads/<filename>')

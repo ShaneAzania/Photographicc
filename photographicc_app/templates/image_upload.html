@@ -70,6 +70,17 @@
 						class="form-control" name="keywords" id="keywords" placeholder="keyword1,key word 2,keyword 3,etc...">
 					  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , )</small>
 					</div>
+					<div id="albums_for_image" class="mb-3">
+						<!-- Cycle through available albums created by user -->
+						{% for a in albums  %}
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="{{a.id}}" name="albums[]">
+							<label class="form-check-label" for="albums">
+								{{a.name}}
+							</label>
+						</div>
+						{% endfor %}
+					</div>
 					<input class="btn btn-outline-primary" type=submit value=Upload>
 				</form>
 			</div>
