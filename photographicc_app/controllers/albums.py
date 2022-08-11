@@ -44,5 +44,5 @@ def album_update_form():
 # View
 @app.route('/album_view/<int:id>')
 def album_view(id):
-    album = Album.get_one_with_images({'id' : id})
+    album = Album.get_one_with_images({'id': id})
     return render_template('album_view.html', album = album, title = site_title)

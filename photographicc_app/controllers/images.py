@@ -3,6 +3,7 @@ import datetime
 from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.image import Image
+from photographicc_app.models import album
 # from photographicc_app.models import album
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -85,7 +86,7 @@ def image_delete(id):
 @app.route('/images_display_all')
 def images_display_all():
     if 'user_id' in session:
-        images = Image.get_all()
+        images = Image.get_all_by_user({'id':session['user_id']})
         return render_template('images_display_all.html', images = images, title = site_title)
     else:
         return redirect('/user_login')
@@ -94,18 +95,41 @@ def images_display_all():
 def image_view(id):
     if 'user_id' in session:
         image = Image.get_one({'id':id})
-        return render_template('image_view.html', image = image, title = site_title)
+        return render_template('image_view.html', image = image, albums = album.Album.get_all({'user_id':session['user_id']}), title = site_title)
     else:
         return redirect('/user_login')
 
-# Update
+# Update Form
 @app.route('/image_update_form', methods = ['POST'])
 def image_update_form():
     form = request.form
-    data = {
+    form_albums = form.getlist('albums[]') #array of albums from the form
+    # update image row in database
+    img_data = {
         'id':form['id'],
         'keywords': form['keywords']
     }
-    Image.update(data)
+    Image.update(img_data)
+    # delete: compair what's in the albums_with_images table to what's in the form before deleting from albums_with_images
+    current_img_albums = Image.get_one({'id': form['id']}).albums
+    print()
+    print('CURRENT ALBUMS: ')
+    for x in current_img_albums:
+        print(x.name)
+    print()
+    for img_a in current_img_albums:
+        if img_a.id not in form_albums:
+            delete_from_album_data = {
+                'image_id':form['id'],
+                'album_id': img_a.id
+            }
+            Image.delete_from_album(delete_from_album_data)
+    # add to albums
+    for a in form_albums:
+        add_to_album_data = {
+            'image_id':form['id'],
+            'album_id': a
+        }
+        Image.add_to_album(add_to_album_data)
 
     return redirect(f'/image_view/{request.form["id"]}')

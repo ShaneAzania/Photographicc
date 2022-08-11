@@ -78,12 +78,42 @@
 		<div id="info-box" class="bg-light">
 			<button class="btn btn-outline-dark close-btn mb-5">Close</button>
 			<form action="/image_update_form" method="post">
-				<div class="mb-3">
+				<!-- image_id -->
+				<input id="image_id" type="text" name="id" value="{{image.id}}" readonly hidden>
+				<!-- keywords -->
+				<div id="keywords" class="mb-3">
 				  <label for="keywords" class="form-label">Keywords</label>
 				  <input type="text" class="form-control" name="keywords" id="" value="{{image.keywords}}" placeholder="keyword1,key word 2,keyword 3,etc...">
 				  <small id="helpId" class="form-text text-muted">Separate keywords and phrases by a comma ( , )</small>
 				</div>
-				<input type="text" name="id" value="{{image.id}}" readonly hidden>
+				<!-- albums_for_image -->
+				<div id="albums_for_image" class="mb-3">
+					<!-- gather all the IDs of the Albums associated with this image -->
+					{% set img_album_ids = [] %}
+					{% for img_a in image.albums %}
+						{{ img_album_ids.append(img_a.id) }}
+					{% endfor %}
+					<!-- Cycle through available albums created by user -->
+					{% for a in albums  %}
+						<!-- if the current album's id is in the list of image album's ids, then generate a checked version of the album checkbox. if not, generate an unchecked version -->
+						{% if a.id in img_album_ids %}
+						<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="{{a.id}}" name="albums[]" checked>
+						<label class="form-check-label" for="albums">
+							{{a.name}}
+						</label>
+						</div>
+						<!-- if not in the list of image album ids, generate an unchecked version -->
+						{% else %}
+						<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="{{a.id}}" name="albums[]">
+						<label class="form-check-label" for="albums">
+							{{a.name}}
+						</label>
+						</div>
+						{% endif %}
+					{% endfor %}
+				</div>
 				<button class="btn btn-secondary">Update</button>
 			</form>
 		</div>

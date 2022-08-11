@@ -1,11 +1,12 @@
 from flask import flash
 from photographicc_app.assets.regex import EMAIL_REGEX
 from photographicc_app.config.mysqlconnection import connectToMySQL
+from photographicc_app.models import album
 
 class Image:
     db = 'photographicc'
     db_table = 'images'
-    db_table_sub_1 = 'users'
+    db_table_sub_1 = 'album_with_images'
     db_table_sub_2 = 'albums'
     def __init__(self , db_data ):
         self.id = db_data['id']
@@ -17,7 +18,7 @@ class Image:
         # change file location directory to fit each project
         if db_data['filename']:
             self.location = 'img/image_uploads/' + db_data['filename']
-        self.user = None
+        self.albums = []
     # **********************************************************************************************************************************
     # create*****************************************************************
     @classmethod
@@ -35,14 +36,34 @@ class Image:
             images.append(cls(x))
         return images
     @classmethod
-    def get_one(cls, data):
-        query = "SELECT * FROM " + cls.db_table + " WHERE id = %(id)s;"
+    def get_all_by_user(cls, data):
+        query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(id)s;"
         result =  connectToMySQL(cls.db).query_db(query,data)
-        if result: 
-            return cls(result[0])
-        else:
-            print('Not in database')
-            return result
+        images =[]
+        for x in result:
+            images.append(cls(x))
+        return images
+    @classmethod
+    def get_one(cls, data):
+        query = "SELECT * FROM " + cls.db_table + " LEFT JOIN " + cls.db_table_sub_1 + " ON images.id = album_with_images.image_id LEFT JOIN " + cls.db_table_sub_2 + " ON albums.id = album_with_images.album_id WHERE " + cls.db_table + ".id = %(id)s;"
+        result =  connectToMySQL(cls.db).query_db(query,data)
+        # create object of the image
+        image = cls(result[0])
+        # add each album from the query to the albums array
+        # print('IMAGE ALBUMS:')
+        for row in result:
+            row_data = {
+                "id": row['albums.id'],
+                "name" : row['name'],
+                "created_at" : row['albums.created_at'],
+                "updated_at" : row['albums.updated_at'],
+                "user_id" : row['user_id']
+            }
+            image.albums.append(album.Album(row_data))
+            # print()
+            # print(row_data)
+            # print()
+        return image
     #**********************************************************************************************************************************
     #update*****************************************************************
     # first_name last_name email password age dojo_id
@@ -58,4 +79,24 @@ class Image:
         return connectToMySQL(cls.db).query_db( query, data)
 
 
-
+    # ALBUMS_WITH_IMAGES
+    #**********************************************************************************************************************************
+    # add to album *****************************************************************
+    @classmethod
+    def add_to_album (cls, data):
+        # check if the album_with_images pair exist before creating the pair
+        query = "SELECT * FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
+        if not connectToMySQL(cls.db).query_db(query, data):
+            # create album_with_images pair
+            query = "INSERT INTO " + cls.db_table_sub_1 + " ( image_id, album_id ) VALUES ( %(image_id)s, %(album_id)s );"
+            return connectToMySQL(cls.db).query_db( query, data)
+    #**********************************************************************************************************************************
+    # delete from album *****************************************************************
+    @classmethod
+    def delete_from_album (cls, data):
+        # check if the album_with_images pair exist before creating the pair
+        query = "SELECT * FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
+        if connectToMySQL(cls.db).query_db(query, data):
+            # create album_with_images pair
+            query = "DELETE FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
+            return connectToMySQL(cls.db).query_db( query, data)
