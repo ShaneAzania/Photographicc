@@ -57,6 +57,19 @@
 		</div>
 
 		<div class="container-fluid">
+			<!-- control-buttons -->
+			{% if session['user_id'] %}
+			<div class="row">
+				<div class="control-buttons col-12 mb-3 d-flex justify-content-between">
+					<a id="back_btn" class="mr-auto"><img src="{{ url_for('static',filename='img/icons/back.jpg') }}"></a>
+					<div>
+						<a id = "info" class="ms-3"> <img alt="info" src="{{ url_for('static',filename='img/icons/info.jpg') }}"></a>
+						<a class="ms-3" href="/album_delete/{{album.id}}"><img alt="delete" src="{{ url_for('static',filename='img/icons/delete.jpg') }}"></a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			<!-- albums image pool -->
 			<div class="row">
 				<div class="image-upload-album-create-outter-box col-1 bg">
 					<div class="image-upload-album-create-inner-box">
@@ -85,6 +98,24 @@
 				</div>
 			</div>
 		</div>
+		<!-- info-box -->
+		{% if session['user_id'] %}
+		<div id="info-box" class="bg-light">
+			<button class="btn btn-outline-dark close-btn mb-5">Close</button>
+			<!-- if user logged in show abled form, else, show readonly form -->
+			<form action="/album_update_form" method="post">
+				<!-- album_id -->
+				<input id="album_id" type="text" name="id" value="{{album.id}}" readonly hidden>
+				<!-- name -->
+				<div id="name" class="mb-3">
+					<label for="name" class="form-label">Name</label>
+					<input type="text" class="form-control" name="name" id="" value="{{album.name}}">
+				</div>
+				
+				<button class="btn btn-secondary">Update</button>
+			</form>
+		</div>
+		{% endif %}
 
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/index.js') }}"></script>

@@ -39,7 +39,7 @@ def album_update_form():
         'name': form['name']
     }
     Album.update(data)
-    return redirect(f'/image_view/{request.form["id"]}')
+    return redirect(f'/album_view/{request.form["id"]}')
 
 # View
 @app.route('/album_view/<int:id>')
