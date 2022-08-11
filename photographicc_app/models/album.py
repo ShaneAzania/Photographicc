@@ -65,14 +65,3 @@ class Album:
         # delete this album
         query = "DELETE FROM " + cls.db_table + " WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db( query, data)
-'''
-        # check if the album_with_images pair exist before creating the pair
-        query = "SELECT * FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
-        if connectToMySQL(cls.db).query_db(query, data):
-            # delete album_with_images pair
-            query = "DELETE FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
-            return connectToMySQL(cls.db).query_db( query, data)
-
-'''
-
-
