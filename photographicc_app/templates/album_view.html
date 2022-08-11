@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
 		<title>{{title}}</title>
 	</head>
-	<body id="dash">
+	<body id="album_view">
 		<nav class="navbar navbar-expand-lg bg-light mb-3">
 			<div class="container-fluid">
 			  <a class="navbar-brand" href="/">{{title}}</a>
@@ -56,7 +56,7 @@
 			{% endfor %} {% endif %} {% endwith %}
 		</div>
 
-		<div class="container-fluid">
+		<div class="container">
 			<!-- control-buttons -->
 			{% if session['user_id'] %}
 			<div class="row">

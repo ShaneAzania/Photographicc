@@ -80,6 +80,12 @@ body {
 
 /* **************************************************** */
 /* image_display_all ********************************** */
+.image-upload-album-create-outter-box{
+	position: relative;
+}
+.image-upload-album-create-outter-box .image-upload-album-create-inner-box{
+	position: fixed;
+}
 .image-display-box{
 	display: flex;
 	flex-wrap: wrap;
@@ -101,9 +107,9 @@ body {
 /* image_view ********************************** */
 #image-view img{
 	max-width: 100%;
-	max-height: 100vh;
+	max-height: 95vh;
 }
-#image-view .control-buttons img{
+.control-buttons img{
 	width: 30px;
 }
 #info, #back_btn{
