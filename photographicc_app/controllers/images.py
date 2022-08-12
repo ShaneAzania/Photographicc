@@ -176,7 +176,12 @@ def images_search():
         'search_string':request.form['search'],
         'id':session['user_id']
     }
+    # search results (array of image objects)
     images = Image.search_for_all_images(data)
+    # cycle through images and attatch user names
+    for img in images:
+        this_user = user.User.get_one({'id':img.user_id})
+        img.creator_user_name = this_user.user_name
     return render_template('images_search_results.html', search_string = request.form['search'], images = images, title = site_title)
 # images_user_search form for users own images
 @app.route('/images_user_search', methods=['POST'])
@@ -186,5 +191,6 @@ def images_user_search():
             'search_string':request.form['search'],
             'id':session['user_id']
         }
+        # search results (array of image objects)
         images = Image.search_for_users_images(data)
         return render_template('images_search_user_results.html', search_string = request.form['search'], images = images, title = site_title)        

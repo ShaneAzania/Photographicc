@@ -86,6 +86,7 @@
 								<a class="" href="/image_view/{{img.id}}">
 									<img src="{{ url_for('static',filename=img.location) }}">
 								</a>
+								<p>{{img.creator_user_name}}</p>
 							</div>
 							{% endfor %}
 						{% else %}

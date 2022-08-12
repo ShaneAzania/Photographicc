@@ -15,6 +15,7 @@ class Image:
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
         self.user_id = db_data['user_id']
+        self.creator_user_name = None
         # change file location directory to fit each project
         if db_data['filename']:
             self.location = 'img/image_uploads/' + db_data['filename']
