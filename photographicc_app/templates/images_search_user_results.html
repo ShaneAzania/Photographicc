@@ -21,7 +21,7 @@
 						<li class="nav-item me-2">
 							<form action="/images_search" method="post">
 								<div class="input-group mt-1">
-									<input name="search" type="text" class="form-control" placeholder="Search" value="{{search_string}}">
+									<input name="search" type="text" class="form-control" placeholder="Search">
 									<!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button> -->
 								  </div>
 							</form>
@@ -78,22 +78,25 @@
 					</div>
 				</div>
 				<div class="image-display-box col-11 row">
-					<h1 class="col-12 text-center mb-4">All Images</h1>
+					<h1 class="col-12 text-center mb-4">Search Results</h1>
 					<form class="col-12 mb-5" action="/images_user_search" method="post">
 						<div class="input-group mt-1">
 							<input name="search" type="text" class="form-control" placeholder="Search your own images" value="{{search_string}}">
 							<!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button> -->
 						  </div>
 					</form>
-
 					<div class="row">
-						{% for img in images %}
-						<div class="img-group col-12 col-lg-4 mb-4 d-flex align-content-center flex-wrap">
-							<a class="" href="/image_view/{{img.id}}">
-								<img src="{{ url_for('static',filename=img.location) }}">
-							</a>
-						</div>
-						{% endfor %}
+						{% if images %}
+							{% for img in images %}
+							<div class="img-group col-12 col-lg-4 mb-4 d-flex align-content-center flex-wrap">
+								<a class="" href="/image_view/{{img.id}}">
+									<img src="{{ url_for('static',filename=img.location) }}">
+								</a>
+							</div>
+							{% endfor %}
+						{% else %}
+							<p class="text-center text-secondary">* No Results *</p>
+						{% endif %}
 					</div>
 				</div>
 			</div>
