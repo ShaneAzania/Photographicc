@@ -80,6 +80,7 @@
 			<!-- image display -->
 			<div class="row justify-content-center">
 				<div class="col text-center">
+					<p>By {{creator.user_name}}</p>
 					<img src="{{ url_for('static',filename=image.location) }}">
 				</div>
 			</div>
@@ -87,7 +88,7 @@
 		<div id="info-box" class="bg-light">
 			<button class="btn btn-outline-dark close-btn mb-5">Close</button>
 			<!-- if user logged in show abled form, else, show readonly form -->
-			{% if session['user_id'] %}
+			{% if session['user_id'] and session['user_id'] == image.user_id %}
 			<form action="/image_update_form" method="post">
 				<!-- image_id -->
 				<input id="image_id" type="text" name="id" value="{{image.id}}" readonly hidden>

@@ -108,17 +108,21 @@ def images_display_all():
 @app.route('/image_view/<int:id>')
 def image_view(id):
     # if logged in user matches image owner user_id, then allow image details to be edited. else, don't all edit 
+    image = Image.get_one({'id':id})
+    creator = user.User.get_one({'id':image.user_id})
     if 'user_id' in session:
-        image = Image.get_one({'id':id})
         if session['user_id'] == image.user_id:
             # show all albums created by user
             albums = album.Album.get_all({'user_id':session['user_id']})
-            return render_template('image_view.html', image = image, albums = albums, title = site_title)
+            return render_template('image_view.html', image = image, albums = albums, creator = creator, title = site_title)
+        else:
+            # only show albums associated with this image
+            albums = image.albums
+            return render_template('image_view.html', image = image, albums = albums, creator = creator, title = site_title)
     else:
-        image = Image.get_one({'id':id})
         # only show albums associated with this image
         albums = image.albums
-        return render_template('image_view.html', albums = albums, image = image, title = site_title)
+        return render_template('image_view.html', image = image, albums = albums, creator = creator, title = site_title)
 
 # Update Form
 @app.route('/image_update_form', methods = ['POST'])
