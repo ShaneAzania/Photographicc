@@ -186,5 +186,5 @@ def images_user_search():
             'search_string':request.form['search'],
             'id':session['user_id']
         }
-        images = Image.search_for_all_images(data)
+        images = Image.search_for_users_images(data)
         return render_template('images_search_user_results.html', search_string = request.form['search'], images = images, title = site_title)        
