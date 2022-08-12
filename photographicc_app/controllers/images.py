@@ -5,6 +5,7 @@ from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.image import Image
 from photographicc_app.models import album
+from photographicc_app.models import user
 # from photographicc_app.models import album
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -110,11 +111,13 @@ def image_view(id):
     if 'user_id' in session:
         image = Image.get_one({'id':id})
         if session['user_id'] == image.user_id:
+            # show all albums created by user
             albums = album.Album.get_all({'user_id':session['user_id']})
             return render_template('image_view.html', image = image, albums = albums, title = site_title)
     else:
         image = Image.get_one({'id':id})
-        albums = album.Album.get_all({'user_id':image.user_id})
+        # only show albums associated with this image
+        albums = image.albums
         return render_template('image_view.html', albums = albums, image = image, title = site_title)
 
 # Update Form
@@ -122,10 +125,10 @@ def image_view(id):
 def image_update_form():
     # check if user is logged in
     if 'user_id' in session:
+        form = request.form
         the_image = Image.get_one({'id':form['id']})
         # check if the logged in user is the owner of this image. If they are, update the image data
         if session['user_id'] == the_image.user_id:
-            form = request.form
             form_albums = form.getlist('albums[]') #array of albums from the form
             # update image row in database
             img_data = {
