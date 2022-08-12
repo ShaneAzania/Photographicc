@@ -44,7 +44,6 @@ def album_update_form():
         the_album = Album.get_one_with_images({'id':form['id']})
         # check if the logged in user is the owner of this album. If they are, update the album data
         if session['user_id'] == the_album.user_id:
-            form = request.form
             data = {
                 'id':form['id'],
                 'name': form['name']
@@ -59,8 +58,17 @@ def album_update_form():
 # Delete 
 @app.route('/album_delete/<int:id>')
 def album_delete(id):
-    data = {
-        'id':id
-    }
-    Album.delete(data)
-    return redirect('/user_dash')
+    # check if a user is logged in
+    if 'user_id' in session:
+        the_album = Album.get_one_with_images({'id':id})
+        # check if the logged in user is the owner of this album. If they are, update the album data
+        if session['user_id'] == the_album.user_id:
+            data = {
+                'id':id
+            }
+            Album.delete(data)
+            return redirect('/user_dash')
+        else:
+            return redirect(f'/album_view/{request.form["id"]}')
+    else:
+        return redirect(f'/album_view/{request.form["id"]}')
