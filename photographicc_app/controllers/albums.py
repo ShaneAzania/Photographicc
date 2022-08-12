@@ -7,14 +7,14 @@ from photographicc_app.models.album import Album
 # from photographicc_app.models import album
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
-site_title = 'Photographicc'
+from photographicc_app.assets.repeat_page_elements import nav_render
 
 
 # Create
 @app.route('/album_create')
 def album_create():
     if 'user_id' in session:
-        return render_template('album_create.html', title = site_title)
+        return render_template('album_create.html', nav = nav_render())
     else:
         return redirect('/user_login')
 # Create Form
@@ -33,7 +33,7 @@ def album_create_form():
 @app.route('/album_view/<int:id>')
 def album_view(id):
     album = Album.get_one_with_images({'id': id})
-    return render_template('album_view.html', album = album, title = site_title)
+    return render_template('album_view.html', album = album, nav = nav_render())
 
 # Update
 @app.route('/album_update_form', methods = ['POST'])

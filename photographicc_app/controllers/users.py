@@ -4,15 +4,30 @@ from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.user import User
 from photographicc_app.models import album
+from photographicc_app.models import image
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
+from photographicc_app.assets.repeat_page_elements import nav_render
 
-site_title = 'Photographicc'
+
+# # nav data
+# nav_data = {}
+# if 'user_id' in session:
+#     nav_data = {
+#         'search_string': '',
+#         'user_id': session["user_id"],
+#         'user_name': session["user_name"]
+#     }
+# else:
+#     nav_data = {
+#         'search_string': '',
+#     }
 
 #Home
 @app.route('/')
 def index():
-    return render_template('index.html', title = site_title)
+    images  = image.Image.get_all()
+    return render_template('index.html', nav = nav_render(), images = images)
 
 #join
 @app.route('/user_join')
@@ -21,7 +36,7 @@ def join():
         if int(session['user_id']):
             return redirect('/')
     except:
-        return render_template('user_join.html', title = site_title)
+        return render_template('user_join.html', nav = nav_render())
 @app.route('/user_join_form', methods = ['POST'])
 def user_register_form():
     if User.validate_form(request.form):
@@ -62,7 +77,7 @@ def user_register_form():
 def user_login():
     if 'user_id' in session:
         return redirect('/user_dash')
-    return render_template('user_login.html', title = site_title)
+    return render_template('user_login.html', nav = nav_render())
 @app.route('/user_login_form', methods = ['POST'])
 def user_login_form():
     user = User.get_by_email({'email': request.form['email']})
@@ -101,15 +116,6 @@ def user_dash():
         for a in albums:
             albums_with_images.append(album.Album.get_one_with_images({ 'id': a.id}))
         
-        # for a in albums_with_images:
-        #     print()
-        #     print('ALBUM ID:', a.id)
-        #     print('NAME:',a.name)
-        #     print('IMAGES:',len(a.images))
-        #     for img in a.images:
-        #         print(img.id)
-        #     print()
-        # print()
-        return render_template('user_dash.html', albums = albums_with_images, title = site_title)
+        return render_template('user_dash.html', albums = albums_with_images, nav = nav_render())
     else:
         return redirect('/user_login')

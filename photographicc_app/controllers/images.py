@@ -9,7 +9,7 @@ from photographicc_app.models import user
 # from photographicc_app.models import album
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
-site_title = 'Photographicc'
+from photographicc_app.assets.repeat_page_elements import nav_render
 
 # Upload
 @app.route('/image_upload')
@@ -18,7 +18,7 @@ def image_upload():
         data = {
             'user_id': session['user_id']
         }
-        return render_template('image_upload.html', albums = album.Album.get_all(data), title = site_title)
+        return render_template('image_upload.html', albums = album.Album.get_all(data), nav = nav_render())
     else:
         return redirect('/user_login')
 # *****************************************************************************
@@ -101,7 +101,7 @@ def image_delete(id):
 def images_display_all():
     if 'user_id' in session:
         images = Image.get_all_by_user({'id':session['user_id']})
-        return render_template('images_display_all.html', images = images, title = site_title)
+        return render_template('images_display_all.html', images = images, nav = nav_render())
     else:
         return redirect('/user_login')
 # View one image
@@ -114,15 +114,15 @@ def image_view(id):
         if session['user_id'] == image.user_id:
             # show all albums created by user
             albums = album.Album.get_all({'user_id':session['user_id']})
-            return render_template('image_view.html', image = image, albums = albums, creator = creator, title = site_title)
+            return render_template('image_view.html', image = image, albums = albums, creator = creator, nav = nav_render())
         else:
             # only show albums associated with this image
             albums = image.albums
-            return render_template('image_view.html', image = image, albums = albums, creator = creator, title = site_title)
+            return render_template('image_view.html', image = image, albums = albums, creator = creator, nav = nav_render())
     else:
         # only show albums associated with this image
         albums = image.albums
-        return render_template('image_view.html', image = image, albums = albums, creator = creator, title = site_title)
+        return render_template('image_view.html', image = image, albums = albums, creator = creator, nav = nav_render())
 
 # Update Form
 @app.route('/image_update_form', methods = ['POST'])
@@ -174,7 +174,6 @@ def image_update_form():
 def images_search():
     data = {
         'search_string':request.form['search'],
-        'id':session['user_id']
     }
     # search results (array of image objects)
     images = Image.search_for_all_images(data)
@@ -182,7 +181,7 @@ def images_search():
     for img in images:
         this_user = user.User.get_one({'id':img.user_id})
         img.creator_user_name = this_user.user_name
-    return render_template('images_search_results.html', search_string = request.form['search'], images = images, title = site_title)
+    return render_template('images_search_results.html', search_string = request.form['search'], images = images, nav = nav_render({'search_string':data['search_string']}))
 # images_user_search form for users own images
 @app.route('/images_user_search', methods=['POST'])
 def images_user_search():
@@ -193,4 +192,4 @@ def images_user_search():
         }
         # search results (array of image objects)
         images = Image.search_for_users_images(data)
-        return render_template('images_search_user_results.html', search_string = request.form['search'], images = images, title = site_title)        
+        return render_template('images_search_user_results.html', search_string = request.form['search'], images = images, nav = nav_render({'search_string':data['search_string']}))        

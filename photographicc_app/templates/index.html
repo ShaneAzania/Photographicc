@@ -9,53 +9,9 @@
 		<title>{{title}}</title>
 	</head>
 	<body id="index">
-		<nav class="navbar navbar-expand-lg bg-light mb-3">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="/">{{title}}</a>
-				<button class="navbar-toggler mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-			  	<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav ms-auto">
-						<!-- search  -->
-						<li class="nav-item me-2">
-							<form action="/images_search" method="post">
-								<div class="input-group mt-1">
-									<input name="search" type="text" class="form-control" placeholder="Search" value="{{search_string}}">
-									<!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button> -->
-								  </div>
-							</form>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/">Home</a>
-						</li>
-						<!-- Nav links that show up when logged in as a user -->
-						{% if session['user_id'] %}
-						<li class="nav-item">
-							<a class="nav-link" href="/user_dash">Dashboard</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/images_display_all">Images</a>
-						</li>
-						{% endif %}
-						<li class="nav-item">
-							{% if session['user_id'] %}
-							<a class="nav-link" href="/user_logout">Logout</a>
-							{% else %}
-							<a class="nav-link" href="/user_login">Login</a>
-							{% endif %}
-						</li>
-						<li class="nav-item">
-							<h5 class="nav-link">
-								{% if session['user_name'] %}
-								{{session['user_name']}}
-								{% endif %}
-							</h5>
-						</li>
-					</ul>
-			  </div>
-			</div>
-		</nav>
+		<!-- display nav component -->
+		{{nav | safe}}
+		
 		<div class="errors">
 			{% with messages = get_flashed_messages() %}<!-- declare a variable called messages -->
 			{% if messages %}<!-- check if there are any messages -->
@@ -79,46 +35,35 @@
 				</div>
 			</div>
 			<div class="row mt-5">
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+				<div class="img-column col-num-1">
+					<img class="col" src="{{ url_for('static',filename=images[0].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[1].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[2].location) }}" alt="">
 				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+				<div class="img-column col-num-2">
+					<img class="col" src="{{ url_for('static',filename=images[3].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[4].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[5].location) }}" alt="">
 				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+				<div class="img-column col-num-3">
+					<img class="col" src="{{ url_for('static',filename=images[6].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[7].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[8].location) }}" alt="">
 				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+				<div class="img-column col-num-4">
+					<img class="col" src="{{ url_for('static',filename=images[9].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[10].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[11].location) }}" alt="">
 				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+				<div class="img-column col-num-5">
+					<img class="col" src="{{ url_for('static',filename=images[12].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[13].location) }}" alt="">
+					<img class="col" src="{{ url_for('static',filename=images[14].location) }}" alt="">
 				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
+				<div class="img-column col-num-6">
+					<img class="col" src="{{ url_for('static',filename=images[15].location) }}" alt="">
 				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-				</div>
-				<div class="img-column">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1512-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN1612-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-					<img class="col" src="{{ url_for('static',filename='img/homepage_defaults/1-1-AZAN2337-ShotByShaneAzania-ShotByShaneAzania.jpg') }}" alt="">
-				</div>
+				
 			</div>
 			
 		</div>
