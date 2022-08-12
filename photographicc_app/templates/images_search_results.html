@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='bootstrap/bootstrap.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" />
+		<title>{{title}}</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg bg-light mb-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/">{{title}}</a>
+				<button class="navbar-toggler mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			  	<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						{% if session['user_id'] %}
+						<li class="nav-item">
+							<form action="/images_search" method="post">
+								<div class="input-group mt-1">
+									<input name="search" type="text" class="form-control" placeholder="Search" value="{{search_string}}">
+									<!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button> -->
+								  </div>
+							</form>
+						</li>
+						{% endif %}
+						<li class="nav-item">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						<!-- Nav links that show up when logged in as a user -->
+						{% if session['user_id'] %}
+						<li class="nav-item">
+							<a class="nav-link" href="/user_dash">Dashboard</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/images_display_all">Images</a>
+						</li>
+						{% endif %}
+						<li class="nav-item">
+							{% if session['user_id'] %}
+							<a class="nav-link" href="/user_logout">Logout</a>
+							{% else %}
+							<a class="nav-link" href="/user_login">Login</a>
+							{% endif %}
+						</li>
+						<li class="nav-item">
+							<h5 class="nav-link">
+								{% if session['user_name'] %}
+								{{session['user_name']}}
+								{% endif %}
+							</h5>
+						</li>
+					</ul>
+			  </div>
+			</div>
+		</nav>
+		<div class="errors">
+			{% with messages = get_flashed_messages() %}<!-- declare a variable called messages -->
+			{% if messages %}<!-- check if there are any messages -->
+			{% for message in messages %}<!-- loop through the messages -->
+			<p>{{message}}</p>
+			<!-- display each message in a paragraph tag -->
+			{% endfor %} {% endif %} {% endwith %}
+		</div>
+
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="image-upload-album-create-outter-box col-1">
+					<div class="image-upload-album-create-inner-box">
+						<a href="/image_upload" data-toggle="tooltip" data-placement="right" title="Upload Image">
+							<img src="{{ url_for('static',filename='img/icons/add_image.jpg') }}" alt="upload" srcset="">
+						</a>
+						<a href="/album_create" data-toggle="tooltip" data-placement="right" title="Create Album">
+							<img src="{{ url_for('static',filename='img/icons/copy.jpg') }}" alt="create album" srcset="">
+						</a>
+					</div>
+				</div>
+				<div class="image-display-box col-11 row">
+					<h1 class="col-12 text-center mb-4">All Images</h1>
+					<div class="row">
+						{% for img in images %}
+						<div class="img-group col-12 col-lg-4 mb-4 d-flex align-content-center flex-wrap">
+							<a class="" href="/image_view/{{img.id}}">
+								<img src="{{ url_for('static',filename=img.location) }}">
+							</a>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+	</body>
+</html>

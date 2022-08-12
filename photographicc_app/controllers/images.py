@@ -1,5 +1,6 @@
 from crypt import methods
 import datetime
+from turtle import title
 from photographicc_app import app
 from flask import flash, render_template,redirect,request,session
 from photographicc_app.models.image import Image
@@ -150,3 +151,14 @@ def image_update_form():
         Image.add_to_album(add_to_album_data)
 
     return redirect(f'/image_view/{request.form["id"]}')
+
+# images_search form
+@app.route('/images_search', methods=['POST'])
+def images_search():
+    if 'user_id' in session:
+        data = {
+            'search_string':request.form['search'],
+            'id':session['user_id']
+        }
+        images = Image.search_for_users_images(data)
+        return render_template('images_search_results.html', search_string = request.form['search'], images = images, title = site_title)
