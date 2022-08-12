@@ -152,13 +152,22 @@ def image_update_form():
 
     return redirect(f'/image_view/{request.form["id"]}')
 
-# images_search form
+# images_search form for all images on server
 @app.route('/images_search', methods=['POST'])
 def images_search():
+    data = {
+        'search_string':request.form['search'],
+        'id':session['user_id']
+    }
+    images = Image.search_for_all_images(data)
+    return render_template('images_search_results.html', search_string = request.form['search'], images = images, title = site_title)
+# images_user_search form for users own images
+@app.route('/images_user_search', methods=['POST'])
+def images_user_search():
     if 'user_id' in session:
         data = {
             'search_string':request.form['search'],
             'id':session['user_id']
         }
-        images = Image.search_for_users_images(data)
-        return render_template('images_search_results.html', search_string = request.form['search'], images = images, title = site_title)
+        images = Image.search_for_all_images(data)
+        return render_template('images_search_results.html', search_string = request.form['search'], images = images, title = site_title)        

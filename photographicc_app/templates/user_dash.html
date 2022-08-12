@@ -17,16 +17,15 @@
 				</button>
 			  	<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ms-auto">
-						{% if session['user_id'] %}
-						<li class="nav-item">
+						<!-- search  -->
+						<li class="nav-item me-2">
 							<form action="/images_search" method="post">
 								<div class="input-group mt-1">
-									<input name="search" type="text" class="form-control" placeholder="Search">
+									<input name="search" type="text" class="form-control" placeholder="Search" value="{{search_string}}">
 									<!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button> -->
 								  </div>
 							</form>
 						</li>
-						{% endif %}
 						<li class="nav-item">
 							<a class="nav-link" href="/">Home</a>
 						</li>

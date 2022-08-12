@@ -17,8 +17,8 @@
 				</button>
 			  	<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ms-auto">
-						{% if session['user_id'] %}
-						<li class="nav-item">
+						<!-- search  -->
+						<li class="nav-item me-2">
 							<form action="/images_search" method="post">
 								<div class="input-group mt-1">
 									<input name="search" type="text" class="form-control" placeholder="Search" value="{{search_string}}">
@@ -26,7 +26,6 @@
 								  </div>
 							</form>
 						</li>
-						{% endif %}
 						<li class="nav-item">
 							<a class="nav-link" href="/">Home</a>
 						</li>
@@ -81,13 +80,17 @@
 				<div class="image-display-box col-11 row">
 					<h1 class="col-12 text-center mb-4">Search Results</h1>
 					<div class="row">
-						{% for img in images %}
-						<div class="img-group col-12 col-lg-4 mb-4 d-flex align-content-center flex-wrap">
-							<a class="" href="/image_view/{{img.id}}">
-								<img src="{{ url_for('static',filename=img.location) }}">
-							</a>
-						</div>
-						{% endfor %}
+						{% if images %}
+							{% for img in images %}
+							<div class="img-group col-12 col-lg-4 mb-4 d-flex align-content-center flex-wrap">
+								<a class="" href="/image_view/{{img.id}}">
+									<img src="{{ url_for('static',filename=img.location) }}">
+								</a>
+							</div>
+							{% endfor %}
+						{% else %}
+							<p class="text-center text-secondary">* No Results *</p>
+						{% endif %}
 					</div>
 				</div>
 			</div>

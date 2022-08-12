@@ -101,16 +101,33 @@ class Image:
             query = "DELETE FROM " + cls.db_table_sub_1 + " WHERE image_id = %(image_id)s AND album_id = %(album_id)s;"
             return connectToMySQL(cls.db).query_db( query, data)
     #**********************************************************************************************************************************
-    # search for images by keyword *****************************************************************
+    # search for user images by keyword *****************************************************************
     @classmethod
     def search_for_users_images(cls, data):
+        # split search string by spaces and put into an search_terms[]
+        search_terms = data['search_string'].split(' ')
+        # cycle through each word in search_terms[] and check if ALL the search terms are present in an images keywords variables
+        imgs = cls.get_all_by_user({'id':data['id']})
+        images_that_pass = []
+        for img in imgs:
+            every_search_word_in_keywords = True
+            for word in search_terms:
+                if word.lower() not in img.keywords.lower():
+                    every_search_word_in_keywords = False
+            if every_search_word_in_keywords:
+                images_that_pass.append(img)
+        return images_that_pass
+    #**********************************************************************************************************************************
+    # search for images by keyword *****************************************************************
+    @classmethod
+    def search_for_all_images(cls, data):
         # split search string by spaces and put into an search_terms[]
         search_terms = data['search_string'].split(' ')
         terms_confirmed_in_keywords = []
         for x in search_terms:
             terms_confirmed_in_keywords.append(True)
         # cycle through each word in search_terms[] and check if ALL the search terms are present in an images keywords variables
-        imgs = cls.get_all_by_user({'id':data['id']})
+        imgs = cls.get_all()
         images_that_pass = []
         for img in imgs:
             every_search_word_in_keywords = True
