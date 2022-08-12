@@ -120,37 +120,47 @@ def image_view(id):
 # Update Form
 @app.route('/image_update_form', methods = ['POST'])
 def image_update_form():
-    form = request.form
-    form_albums = form.getlist('albums[]') #array of albums from the form
-    # update image row in database
-    img_data = {
-        'id':form['id'],
-        'keywords': form['keywords']
-    }
-    Image.update(img_data)
-    # delete: compair what's in the albums_with_images table to what's in the form before deleting from albums_with_images
-    current_img_albums = Image.get_one({'id': form['id']}).albums
-    print()
-    print('CURRENT ALBUMS: ')
-    for x in current_img_albums:
-        print(x.name)
-    print()
-    for img_a in current_img_albums:
-        if img_a.id not in form_albums:
-            delete_from_album_data = {
-                'image_id':form['id'],
-                'album_id': img_a.id
+    # check if user is logged in
+    if 'user_id' in session:
+        the_image = Image.get_one({'id':form['id']})
+        # check if the logged in user is the owner of this image. If they are, update the image data
+        if session['user_id'] == the_image.user_id:
+            form = request.form
+            form_albums = form.getlist('albums[]') #array of albums from the form
+            # update image row in database
+            img_data = {
+                'id':form['id'],
+                'keywords': form['keywords']
             }
-            Image.delete_from_album(delete_from_album_data)
-    # add to albums
-    for a in form_albums:
-        add_to_album_data = {
-            'image_id':form['id'],
-            'album_id': a
-        }
-        Image.add_to_album(add_to_album_data)
+            Image.update(img_data)
+            # delete: compair what's in the albums_with_images table to what's in the form before deleting from albums_with_images
+            current_img_albums = Image.get_one({'id': form['id']}).albums
+            print()
+            print('CURRENT ALBUMS: ')
+            for x in current_img_albums:
+                print(x.name)
+            print()
+            for img_a in current_img_albums:
+                if img_a.id not in form_albums:
+                    delete_from_album_data = {
+                        'image_id':form['id'],
+                        'album_id': img_a.id
+                    }
+                    Image.delete_from_album(delete_from_album_data)
+            # add to albums
+            for a in form_albums:
+                add_to_album_data = {
+                    'image_id':form['id'],
+                    'album_id': a
+                }
+                Image.add_to_album(add_to_album_data)
 
-    return redirect(f'/image_view/{request.form["id"]}')
+            return redirect(f'/image_view/{request.form["id"]}')
+        else:
+            return redirect(f'/image_view/{request.form["id"]}')
+    else:
+        return redirect(f'/image_view/{request.form["id"]}')
+            
 
 # images_search form for all images on server
 @app.route('/images_search', methods=['POST'])
