@@ -93,7 +93,7 @@
 					<!-- gather all the IDs of the Albums associated with this image -->
 					{% set img_album_ids = [] %}
 					{% for img_a in image.albums %}
-					{{ img_album_ids.append(img_a.id) }}
+					<!-- {{ img_album_ids.append(img_a.id) }} -->
 					{% endfor %}
 					<!-- Cycle through available albums created by user -->
 					{% for a in albums  %}
