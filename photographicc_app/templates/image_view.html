@@ -11,39 +11,49 @@
 	<body id="image-view">
 		<nav class="navbar navbar-expand-lg bg-light mb-3">
 			<div class="container-fluid">
-			  <a class="navbar-brand" href="/">{{title}}</a>
-			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			  </button>
-			  <div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="/">Home</a>
-					</li>
-					<!-- Nav links that show up when logged in as a user -->
-					{% if session['user_id'] %}
-					<li class="nav-item">
-							<a class="nav-link" href="/user_dash">Dashboard</a>
-					</li>
-					<li class="nav-item">
-							<a class="nav-link" href="/images_display_all">Images</a>
-					</li>
-					{% endif %}
-					<li class="nav-item">
+				<a class="navbar-brand" href="/">{{title}}</a>
+				<button class="navbar-toggler mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			  	<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
 						{% if session['user_id'] %}
-							<a class="nav-link" href="/user_logout">Logout</a>
-						{% else %}
-							<a class="nav-link" href="/user_login">Login</a>
+						<li class="nav-item">
+							<form action="/images_search" method="post">
+								<div class="input-group mt-1">
+									<input name="search" type="text" class="form-control" placeholder="Search">
+									<!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button> -->
+								  </div>
+							</form>
+						</li>
 						{% endif %}
-					</li>
-					<li class="nav-item">
-						<h5 class="nav-link">
-							{% if session['user_name'] %}
-								{{session['user_name']}}
+						<li class="nav-item">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						<!-- Nav links that show up when logged in as a user -->
+						{% if session['user_id'] %}
+						<li class="nav-item">
+							<a class="nav-link" href="/user_dash">Dashboard</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/images_display_all">Images</a>
+						</li>
+						{% endif %}
+						<li class="nav-item">
+							{% if session['user_id'] %}
+							<a class="nav-link" href="/user_logout">Logout</a>
+							{% else %}
+							<a class="nav-link" href="/user_login">Login</a>
 							{% endif %}
-						</h5>
-					</li>
-				</ul>
+						</li>
+						<li class="nav-item">
+							<h5 class="nav-link">
+								{% if session['user_name'] %}
+								{{session['user_name']}}
+								{% endif %}
+							</h5>
+						</li>
+					</ul>
 			  </div>
 			</div>
 		</nav>
