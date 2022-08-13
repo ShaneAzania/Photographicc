@@ -19,10 +19,10 @@ def nav_render(data = {}):
 	# display Dash and Images links
 	if "user_id" in session:
 		dash_and_images_links = '<li class="nav-item">'\
-								'<a class="nav-link" href="/user_dash">Dashboard</a>'\
+								'<a class="nav-link" href="/user_dash">MyAlbums</a>'\
 							'</li>'\
 							'<li class="nav-item">'\
-								'<a class="nav-link" href="/images_display_all">Images</a>'\
+								'<a class="nav-link" href="/images_display_all">MyImages</a>'\
 							'</li>'
 		login_logout = '<a class="nav-link" href="/user_logout">Logout</a>'
 		user_name = session['user_name']
