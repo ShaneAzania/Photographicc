@@ -21,7 +21,7 @@
 			{% endfor %} {% endif %} {% endwith %}
 		</div>
 
-		<div class="container-fluid p-0">
+		<div class="container-fluid">
 			<div class="row">
 				<div id="index-intro" class="col-12 col-md-5 col-lg-4 mx-auto justify-content-center text-center">
 					<img src="{{ url_for('static',filename='img/logo.png') }}" class="logo" alt="logo">
@@ -34,40 +34,15 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="row mt-5">
-				<div class="img-column col-num-1">
-					<img class="col" src="{{ url_for('static',filename=images[0].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[1].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[2].location) }}" alt="">
-				</div>
-				<div class="img-column col-num-2">
-					<img class="col" src="{{ url_for('static',filename=images[3].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[4].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[5].location) }}" alt="">
-				</div>
-				<div class="img-column col-num-3">
-					<img class="col" src="{{ url_for('static',filename=images[6].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[7].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[8].location) }}" alt="">
-				</div>
-				<div class="img-column col-num-4">
-					<img class="col" src="{{ url_for('static',filename=images[9].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[10].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[11].location) }}" alt="">
-				</div>
-				<div class="img-column col-num-5">
-					<img class="col" src="{{ url_for('static',filename=images[12].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[13].location) }}" alt="">
-					<img class="col" src="{{ url_for('static',filename=images[14].location) }}" alt="">
-				</div>
-				<div class="img-column col-num-6">
-					<img class="col" src="{{ url_for('static',filename=images[15].location) }}" alt="">
-				</div>
-				
+			<div class="img-moz row d-flex mt-5">
+				{% for img in images[:16] %}
+				{% if img %}
+				<div class="img-box" style="background-image: url('{{ url_for('static',filename=img.location) }}');">
+				</div>					
+				{% endif %}
+				{% endfor %}			
 			</div>
-			
 		</div>
-
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 	</body>
