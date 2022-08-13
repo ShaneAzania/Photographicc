@@ -126,11 +126,15 @@ class Image:
         # cycle through each word in search_terms[] and check if ALL the search terms are present in an images keywords variables
         imgs = cls.get_all_by_user({'id':data['id']})
         images_that_pass = []
+        words_to_ignore = ['a', 'all', 'and', 'by', 'in', 'is','that', "that's", 'the', 'them', 'they', "they'll", 'this', 'those', 'yall', "y'all"]
         for img in imgs:
             every_search_word_in_keywords = True
             for word in search_terms:
-                if word.lower() not in img.keywords.lower():
-                    every_search_word_in_keywords = False
+                # check to see if the current word should be ignored
+                if word.lower() not in ','.join(words_to_ignore).lower():
+                    # check to see if word is in images keywords
+                    if word.lower() not in img.keywords.lower() :
+                        every_search_word_in_keywords = False
             if every_search_word_in_keywords:
                 images_that_pass.append(img)
         return images_that_pass
@@ -146,11 +150,15 @@ class Image:
         # cycle through each word in search_terms[] and check if ALL the search terms are present in an images keywords variables
         imgs = cls.get_all()
         images_that_pass = []
+        words_to_ignore = ['a', 'all', 'and', 'by', 'in', 'is','that', "that's", 'the', 'them', 'they', "they'll", 'this', 'those', 'yall', "y'all"]
         for img in imgs:
             every_search_word_in_keywords = True
             for word in search_terms:
-                if word.lower() not in img.keywords.lower():
-                    every_search_word_in_keywords = False
+                # check to see if the current word should be ignored
+                if word.lower() not in ','.join(words_to_ignore).lower():
+                    # check to see if word is in images keywords
+                    if word.lower() not in img.keywords.lower():
+                        every_search_word_in_keywords = False
             if every_search_word_in_keywords:
                 images_that_pass.append(img)
         return images_that_pass
