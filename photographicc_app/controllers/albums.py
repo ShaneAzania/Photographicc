@@ -25,8 +25,12 @@ def album_create_form():
             'name': request.form['name'],
             'user_id': session['user_id']
         }
-        album_id = Album.create(data)
-        return redirect(f'/album_view/{album_id}')
+        # Validate
+        if Album.validateForm(data):
+            album_id = Album.create(data)
+            return redirect(f'/album_view/{album_id}')
+        else:
+            return redirect('/album_create')
     else:
         return redirect('/user_login')
 # View
@@ -40,20 +44,23 @@ def album_view(id):
 def album_update_form():
     # check if a user is logged in
     if 'user_id' in session:
-        form = request.form
-        the_album = Album.get_one_with_images({'id':form['id']})
+        data = {
+            'id':request.form['id'],
+            'name': request.form['name']
+        }
+        the_album = Album.get_one_with_images(data)
         # check if the logged in user is the owner of this album. If they are, update the album data
         if session['user_id'] == the_album.user_id:
-            data = {
-                'id':form['id'],
-                'name': form['name']
-            }
-            Album.update(data)
-            return redirect(f'/album_view/{request.form["id"]}')
+            # Validate
+            if Album.validateForm(data):
+                Album.update(data)
+                return redirect(f'/album_view/{data["id"]}')
+            else:
+                return redirect(f'/album_view/{data["id"]}')
         else:
-            return redirect(f'/album_view/{request.form["id"]}')
+            return redirect(f'/album_view/{data["id"]}')
     else:
-        return redirect(f'/album_view/{request.form["id"]}')
+        return redirect(f'/album_view/{data["id"]}')
 
 # Delete 
 @app.route('/album_delete/<int:id>')

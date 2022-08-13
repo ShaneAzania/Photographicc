@@ -65,3 +65,12 @@ class Album:
         # delete this album
         query = "DELETE FROM " + cls.db_table + " WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db( query, data)
+
+    #**********************************************************************************************************************************
+    # validate *****************************************************************
+    def validateForm(data):
+        valid = True
+        if len(data['name']) < 3:
+            flash('Album name must be longer than 3 characters long.')
+            valid = False
+        return valid
