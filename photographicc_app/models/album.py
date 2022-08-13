@@ -26,7 +26,7 @@ class Album:
     #retreive*****************************************************************
     @classmethod
     def get_all(cls, data):
-        query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(user_id)s;"
+        query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(user_id)s  ORDER BY name ASC;"
         result =  connectToMySQL(cls.db).query_db(query, data)
         albums =[]
         for x in result:

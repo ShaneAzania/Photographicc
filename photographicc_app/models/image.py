@@ -30,7 +30,7 @@ class Image:
     #retreive*****************************************************************
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM " + cls.db_table + ";"
+        query = "SELECT * FROM " + cls.db_table + "  ORDER BY created_at DESC;"
         result =  connectToMySQL(cls.db).query_db(query)
         images =[]
         for x in result:
@@ -38,7 +38,7 @@ class Image:
         return images
     @classmethod
     def get_all_by_user(cls, data):
-        query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(id)s;"
+        query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(id)s  ORDER BY created_at DESC;"
         result =  connectToMySQL(cls.db).query_db(query,data)
         images =[]
         for x in result:

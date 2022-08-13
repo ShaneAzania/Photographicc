@@ -63,7 +63,7 @@ def nav_render(data = {}):
 							'</h5>'\
 						'</li>'\
 					'</ul>'\
-			'</div>'\
+				'</div>'\
 			'</div>'\
 		'</nav>'
 	return nav
