@@ -86,15 +86,28 @@ def image_upload_form():
 # Deleting
 @app.route('/image_delete/<int:id>')
 def image_delete(id):
-    data = {'id' : id}
+    data = {
+        'id' : id,
+    }
     img = Image.get_one(data)
-    # delet image file from server
-    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-
-    # delete image row from database
-    Image.delete(data)
-
-    return redirect('/images_display_all')
+    if 'user_id' in session:
+        if session['user_id'] == img.user_id:
+            # delete all rows from albums_with_images with current image
+            for a in img.albums:
+                Image.delete_from_album({
+                    'album_id': a.id,
+                    'image_id' : id
+                })
+            # delete image row from database
+            Image.delete(data)
+            # delete image file from server
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
+            return redirect('/images_display_all')
+        else:
+            return redirect(f'/image_view/{img.id}')
+    else:
+        return redirect(f'/image_view/{img.id}')
+    
 
 # View all images in a pool
 @app.route('/images_display_all')
