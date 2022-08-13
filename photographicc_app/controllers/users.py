@@ -30,17 +30,15 @@ def index():
         'lower': 0,
         'upper': 24
     }
-    # images  = image.Image.get_all()
     images  = image.Image.get_all_in_range(data)
     return render_template('index.html', nav = nav_render(), images = images)
 
 #join
 @app.route('/user_join')
-def join():
-    try:
-        if int(session['user_id']):
-            return redirect('/')
-    except:
+def join(): 
+    if 'user_id' in session:
+        return redirect('/')
+    else:
         return render_template('user_join.html', nav = nav_render())
 @app.route('/user_join_form', methods = ['POST'])
 def user_register_form():
