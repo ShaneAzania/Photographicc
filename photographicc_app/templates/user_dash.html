@@ -40,7 +40,7 @@
 						<a class="pb-4 d-block text-decoration-none text-secondary" href="/album_view/{{a.id}}">{{a.name}} | {{a.created_at}}</a>
 						<div class="album-view">
 						{% if a.images[0].id != None  %}
-							{% for i in a.images %}
+							{% for i in a.images[0:6] %}
 							{% if i.location  %}
 							<a href="/image_view/{{i.id}}">
 								<img class="" src="{{ url_for('static', filename=i.location) }}" alt="">

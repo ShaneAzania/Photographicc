@@ -35,7 +35,8 @@
 				</div>
 			</div>
 			<div class="img-moz row d-flex mt-5">
-				{% for img in images[:24] %}
+				<!-- render up to 24 images -->
+				{% for img in images[0:24] %}
 				{% if img %}
 				<div class="img-box" style="background-image: url('{{ url_for('static',filename=img.location) }}');">
 					<a href="/image_view/{{img.id}}"></a>

@@ -26,7 +26,12 @@ from photographicc_app.assets.repeat_page_elements import nav_render
 #Home
 @app.route('/')
 def index():
-    images  = image.Image.get_all()
+    data = {
+        'lower': 0,
+        'upper': 24
+    }
+    # images  = image.Image.get_all()
+    images  = image.Image.get_all_in_range(data)
     return render_template('index.html', nav = nav_render(), images = images)
 
 #join
@@ -104,13 +109,12 @@ def user_logout():
     session.clear()
     return redirect('/user_login')
 
-#dash
+#dash / MyAlbums
 @app.route('/user_dash')
 def user_dash():
     if 'user_id' in session:
         # get albums
-        user_id = session['user_id']
-        albums = album.Album.get_all({'user_id': user_id})
+        albums = album.Album.get_all({'user_id': session['user_id']})
         # get images for albums
         albums_with_images = []
         for a in albums:

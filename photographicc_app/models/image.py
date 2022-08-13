@@ -37,8 +37,24 @@ class Image:
             images.append(cls(x))
         return images
     @classmethod
+    def get_all_in_range(cls,data):
+        query = "SELECT * FROM " + cls.db_table + "  ORDER BY created_at DESC LIMIT %(lower)s, %(upper)s;"
+        result =  connectToMySQL(cls.db).query_db(query,data)
+        images =[]
+        for x in result:
+            images.append(cls(x))
+        return images
+    @classmethod
     def get_all_by_user(cls, data):
         query = "SELECT * FROM " + cls.db_table + " WHERE user_id = %(id)s  ORDER BY created_at DESC;"
+        result =  connectToMySQL(cls.db).query_db(query,data)
+        images =[]
+        for x in result:
+            images.append(cls(x))
+        return images
+    @classmethod
+    def get_all_by_user_in_range(cls,data):
+        query = "SELECT * FROM " + cls.db_table + "  ORDER BY created_at DESC LIMIT %(lower)s, %(upper)s;"
         result =  connectToMySQL(cls.db).query_db(query,data)
         images =[]
         for x in result:
