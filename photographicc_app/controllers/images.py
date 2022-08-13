@@ -40,46 +40,43 @@ def allowed_file(filename):
 # process the form being received from the client
 @app.route('/image_upload_form', methods=['POST'])
 def image_upload_form():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect('/image_upload')
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect('/image_upload')
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename) 
-            #append dateTime to end of filename before extension
-            filename = filename.rsplit('.', 1)[0] + '_' + datetime.datetime.now().strftime("%f") + '.' +filename.rsplit('.', 1)[1].lower()
+    if 'user_id' in session:
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect('/image_upload')
+            file = request.files['file']
+            # if user does not select file, browser also
+            # submit an empty part without filename
+            if file.filename == '':
+                flash('No selected file')
+                return redirect('/image_upload')
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename) 
+                #append dateTime to end of filename before extension
+                filename = filename.rsplit('.', 1)[0] + '_' + datetime.datetime.now().strftime("%f") + '.' +filename.rsplit('.', 1)[1].lower()
 
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            data ={
-                'filename': filename,
-                'keywords' : request.form['keywords'],
-                'user_id' : session['user_id']
-            }
-            # Upload Image data to database
-            image_id = Image.create(data)
-            # Creat albums_with_images pair in database
-            # get albums from form
-            album_ids_from_form = request.form.getlist('albums[]') #array of albums from the form
-            # cycle through the albums_from_form and create an albums_with_images pair for each
-            for a_id in album_ids_from_form:
-                data = {
-                    'image_id': image_id,
-                    'album_id' : a_id
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                data ={
+                    'filename': filename,
+                    'keywords' : request.form['keywords'],
+                    'user_id' : session['user_id']
                 }
-                Image.add_to_album(data)
-            # return redirect(url_for('uploaded_file', filename=filename))
-            return redirect(f'/image_view/{image_id}')
-# @app.route('/uploads/<filename>')
-# def uploaded_file(filename):
-#     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
+                # Upload Image data to database
+                image_id = Image.create(data)
+                # Creat albums_with_images pair in database
+                # get albums from form
+                album_ids_from_form = request.form.getlist('albums[]') #array of albums from the form
+                # cycle through the albums_from_form and create an albums_with_images pair for each
+                for a_id in album_ids_from_form:
+                    data = {
+                        'image_id': image_id,
+                        'album_id' : a_id
+                    }
+                    Image.add_to_album(data)
+                # return redirect(url_for('uploaded_file', filename=filename))
+                return redirect(f'/image_view/{image_id}')
 # END uploading images ***********************************************
 # ****************************************************************
 
@@ -91,6 +88,7 @@ def image_delete(id):
     }
     img = Image.get_one(data)
     if 'user_id' in session:
+        # if user is the owner of this image, allow delete
         if session['user_id'] == img.user_id:
             # delete all rows from albums_with_images with current image
             for a in img.albums:

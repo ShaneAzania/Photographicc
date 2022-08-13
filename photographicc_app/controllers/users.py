@@ -9,20 +9,6 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from photographicc_app.assets.repeat_page_elements import nav_render
 
-
-# # nav data
-# nav_data = {}
-# if 'user_id' in session:
-#     nav_data = {
-#         'search_string': '',
-#         'user_id': session["user_id"],
-#         'user_name': session["user_name"]
-#     }
-# else:
-#     nav_data = {
-#         'search_string': '',
-#     }
-
 #Home
 @app.route('/')
 def index():
