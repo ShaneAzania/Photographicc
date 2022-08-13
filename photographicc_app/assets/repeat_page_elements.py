@@ -1,7 +1,9 @@
 from flask import session
 
+# Variables
 site_title = 'Photographicc'
 
+# functions
 def nav_render(data = {}):
 	'''
 	required data
@@ -51,6 +53,9 @@ def nav_render(data = {}):
 						'</li>'\
 						'<li class="nav-item">'\
 							'<a class="nav-link" href="/">Home</a>'\
+						'</li>'\
+						'<li class="nav-item">'\
+							'<a class="nav-link" href="/images_display_all_community">CommunityImages</a>'\
 						'</li>'\
 						'<!-- Nav links that show up when logged in as a user -->'\
 						f'{dash_and_images_links}'\

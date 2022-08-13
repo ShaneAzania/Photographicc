@@ -109,7 +109,7 @@ def image_delete(id):
         return redirect(f'/image_view/{img.id}')
     
 
-# View all images in a pool
+# View all user images in a pool
 @app.route('/images_display_all')
 def images_display_all():
     if 'user_id' in session:
@@ -117,6 +117,15 @@ def images_display_all():
         return render_template('images_display_all.html', images = images, nav = nav_render())
     else:
         return redirect('/user_login')
+# View all community images in a pool
+@app.route('/images_display_all_community')
+def images_display_all_community():
+        images = Image.get_all()
+        # cycle through images and attatch user names
+        for img in images:
+            this_user = user.User.get_one({'id':img.user_id})
+            img.creator_user_name = this_user.user_name
+        return render_template('images_display_all_community.html', images = images, nav = nav_render())
 # View one image
 @app.route('/image_view/<int:id>')
 def image_view(id):
