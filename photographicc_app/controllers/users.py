@@ -85,8 +85,9 @@ def user_login_form():
             return redirect('/user_dash')
         else:
             # go back to login page
-            session['user_name'] = request.form['user_name']
+            session['email'] = request.form['email']
             session['password'] = request.form['password']
+            flash('Password incorrect')
             return redirect('/user_login')
     else:
         # if validation failed, send back to login page
