@@ -72,13 +72,13 @@ class User:
     # validate*****************************************************************
     def validate_form(data):
         valid = True
-        if len(data['user_name']) < 2:
+        if 'user_name' in data and len(data['user_name']) < 2:
             valid = False
             flash('User name must be at least 3 characters long.')
-        if len(data['first_name']) < 2:
+        if 'first_name' in data and len(data['first_name']) < 2:
             valid = False
             flash('First name must be at least 3 characters long.')
-        if len(data['last_name']) < 2:
+        if 'last_name' in data and len(data['last_name']) < 2:
             valid = False
             flash('Last name must be at least 3 characters long.')
         if not EMAIL_REGEX.match(data['email']):
@@ -87,12 +87,13 @@ class User:
         if len(data['password']) < 8:
             valid = False
             flash('Password must be at least 8 characters long.')
-        if not data['password'] == data['password2']:
-            valid = False
-            flash('Passwords do not match.')
-        elif len(data['password']) < 4:
-            valid = False
-            flash('Please enter a longer password.')
+        if 'password2' in data:
+            if not data['password'] == data['password2']:
+                valid = False
+                flash('Passwords do not match.')
+            elif len(data['password']) < 4:
+                valid = False
+                flash('Please enter a longer password.')
         return valid
 
 

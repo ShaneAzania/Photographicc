@@ -69,23 +69,27 @@ def user_login():
     return render_template('user_login.html', nav = nav_render())
 @app.route('/user_login_form', methods = ['POST'])
 def user_login_form():
-    user = User.get_by_email({'email': request.form['email']})
-    print('************************************')
-    print('************************************')
-    print(user.user_name)
-    print('************************************')
-    print('************************************')
-    if user and bcrypt.check_password_hash(user.password, request.form['password']):
-        session.clear()
-        session['user_name'] = user.user_name
-        session['user_id'] = user.id
-        session['first_name'] = user.first_name
-        session['last_name'] = user.last_name
-        session['email'] = user.email
-        return redirect('/user_dash')
+    # Validate User Login
+    if User.validate_form(request.form):
+        # Get User
+        user = User.get_by_email({'email': request.form['email']})
+        # Check if password matches
+        if user and bcrypt.check_password_hash(user.password, request.form['password']):
+            # login
+            session.clear()
+            session['user_name'] = user.user_name
+            session['user_id'] = user.id
+            session['first_name'] = user.first_name
+            session['last_name'] = user.last_name
+            session['email'] = user.email
+            return redirect('/user_dash')
+        else:
+            # go back to login page
+            session['user_name'] = request.form['user_name']
+            session['password'] = request.form['password']
+            return redirect('/user_login')
     else:
-        session['user_name'] = request.form['user_name']
-        session['password'] = request.form['password']
+        # if validation failed, send back to login page
         return redirect('/user_login')
 #log out
 @app.route('/user_logout')
