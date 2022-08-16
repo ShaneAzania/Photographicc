@@ -51,10 +51,10 @@ class User:
         query = "SELECT * FROM " + cls.db_table + " WHERE email = %(email)s;"
         result = connectToMySQL(cls.db).query_db( query, data)
 
-        if len(result) < 1:
-            return False
-        else:
+        if result:
             return cls(result[0])
+        else:
+            return result
     #**********************************************************************************************************************************
     #update*****************************************************************
     # first_name last_name email password age dojo_id

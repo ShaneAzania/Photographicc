@@ -71,23 +71,27 @@ def user_login():
 def user_login_form():
     # Validate User Login
     if User.validate_form(request.form):
-        # Get User
+        # check if user exists
         user = User.get_by_email({'email': request.form['email']})
-        # Check if password matches
-        if user and bcrypt.check_password_hash(user.password, request.form['password']):
-            # login
-            session.clear()
-            session['user_name'] = user.user_name
-            session['user_id'] = user.id
-            session['first_name'] = user.first_name
-            session['last_name'] = user.last_name
-            session['email'] = user.email
-            return redirect('/user_dash')
+        if user:
+            # Check if password matches
+            if bcrypt.check_password_hash(user.password, request.form['password']):
+                # login
+                session.clear()
+                session['user_name'] = user.user_name
+                session['user_id'] = user.id
+                session['first_name'] = user.first_name
+                session['last_name'] = user.last_name
+                session['email'] = user.email
+                return redirect('/user_dash')
+            else:
+                # go back to login page
+                session['email'] = request.form['email']
+                session['password'] = request.form['password']
+                flash('Invalid Password')
+                return redirect('/user_login')
         else:
-            # go back to login page
-            session['email'] = request.form['email']
-            session['password'] = request.form['password']
-            flash('Password incorrect')
+            flash('Invalid user')
             return redirect('/user_login')
     else:
         # if validation failed, send back to login page
